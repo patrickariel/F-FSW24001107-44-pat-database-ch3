@@ -12,3 +12,16 @@ test("greet user's name", async () => {
 
   expect(greeting).toBe(`Hello, ${input}`);
 });
+
+test("get products", async () => {
+  const ctx = await createContextInner({});
+  const caller = createCaller(ctx);
+
+  const products = await caller.product.find({
+    department: "Computers",
+    limit: 5,
+  });
+
+  expect(products.products).not.toHaveLength(0);
+  expect(products.products).not.toHaveLength(6);
+});
