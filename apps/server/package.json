@@ -8,18 +8,13 @@
     "build": "tsup app",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint app/",
-    "test": "jest --detectOpenHandles"
-  },
-  "jest": {
-    "preset": "@repo/jest-presets/node"
+    "lint": "eslint app/"
   },
   "dependencies": {
     "express": "^4.19.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "@types/jest": "^29.5.12",
     "tsup": "^8.0.2"
   }
 }

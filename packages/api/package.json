@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "jest --detectOpenHandles"
+  },
+  "jest": {
+    "preset": "@repo/jest-presets/node"
   },
   "exports": {
     ".": "./src/index.ts",
