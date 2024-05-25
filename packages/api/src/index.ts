@@ -1,11 +1,7 @@
 import { product } from "./routes/product";
-import { createCallerFactory, publicProcedure, router } from "./trpc";
-import { z } from "zod";
+import { createCallerFactory, router } from "./trpc";
 
 export const appRouter = router({
-  greet: publicProcedure.input(z.string()).query(async ({ input }) => {
-    return `Hello, ${input}`;
-  }),
   product,
 });
 
