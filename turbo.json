@@ -6,8 +6,15 @@
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
+    "test": {
+      "outputs": ["coverage/**"],
+      "dependsOn": []
+    },
     "lint": {
       "dependsOn": ["^lint"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"]
     },
     "dev": {
       "cache": false,

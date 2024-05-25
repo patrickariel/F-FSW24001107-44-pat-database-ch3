@@ -1,0 +1,16 @@
+{
+  "name": "@repo/api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./trpc": "./src/trpc.ts"
+  },
+  "dependencies": {
+    "@trpc/server": "^11.0.0-rc.374",
+    "zod": "^3.23.8"
+  }
+}
