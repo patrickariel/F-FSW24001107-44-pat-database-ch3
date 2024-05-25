@@ -1,0 +1,58 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email      String     @unique
+  balance    Float      @db.DoublePrecision
+  registered DateTime   @default(now())
+  image      String
+  name       String
+  password   String
+  cart       CartItem[]
+  reviews    Review[]
+}
+
+model Product {
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String
+  shortName   String
+  material    String
+  adjective   String
+  added       DateTime   @default(now())
+  department  String
+  price       Float      @db.DoublePrecision
+  stock       Int
+  images      String[]
+  description String
+  cart        CartItem[]
+  reviews     Review[]
+}
+
+model Review {
+  id        String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  review    String
+  rating    Float
+  author    User    @relation(fields: [authorId], references: [id])
+  authorId  String  @db.Uuid
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @db.Uuid
+}
+
+model CartItem {
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.Uuid
+  added     DateTime @default(now())
+  quantity  Int
+
+  @@id([userId, productId])
+}
