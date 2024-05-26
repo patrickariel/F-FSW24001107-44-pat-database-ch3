@@ -1,0 +1,13 @@
+{
+  "extends": ["//"],
+  "pipeline": {
+    "build": {
+      "env": [
+        "VERCEL_URL",
+        "RENDER_INTERNAL_HOSTNAME",
+        "RENDER_INTERNAL_HOSTNAME",
+        "PORT"
+      ]
+    }
+  }
+}
