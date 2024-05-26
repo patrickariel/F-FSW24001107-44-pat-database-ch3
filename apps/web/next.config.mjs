@@ -14,7 +14,7 @@ const nextConfig = {
       fallback: [
         {
           source: "/api/trpc/:path*",
-          destination: "http://localhost:4000/trpc/:path*",
+          destination: `http://localhost:${process.env.EXPRESS_PORT || 4000}/trpc/:path*`,
         },
       ],
     };
