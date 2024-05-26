@@ -16,9 +16,15 @@
   "dependencies": {
     "@auth/core": "^0.31.0",
     "@trpc/server": "^11.0.0-rc.374",
+    "@types/lodash": "^4.17.4",
+    "bcrypt": "^5.1.1",
+    "lodash": "^4.17.21",
     "zod": "^3.23.8"
   },
   "devdependencies": {
     "cross-env": "^7.0.3"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2"
   }
 }

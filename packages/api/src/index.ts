@@ -1,8 +1,10 @@
 import { product } from "./routes/product";
+import { user } from "./routes/user";
 import { createCallerFactory, router } from "./trpc";
 
 export const appRouter = router({
   product,
+  user,
 });
 
 export const createCaller = createCallerFactory(appRouter);
