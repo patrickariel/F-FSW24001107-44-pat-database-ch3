@@ -30,10 +30,15 @@ export const departments = [
 export const product = router({
   get: publicProcedure
     .input(z.object({ id: z.string().uuid() }))
-    .query(
-      async ({ input: { id } }) =>
-        await prisma.product.findUnique({ where: { id } }),
-    ),
+    .query(async ({ input: { id }, ctx: { user } }) => {
+      const product = await prisma.product.findUnique({ where: { id } });
+      return product !== null
+        ? {
+            cart: user?.cart?.find(({ productId }) => productId === product.id),
+            ...product,
+          }
+        : null;
+    }),
   find: publicProcedure
     .input(
       z.object({
@@ -43,33 +48,39 @@ export const product = router({
         query: z.string().optional(),
       }),
     )
-    .query(async ({ input: { department, limit, cursor, query } }) => {
-      const products = (
-        await prisma.product.findMany({
-          where: {
-            ...(department && { department }),
-            ...(query && { name: { search: query } }),
-          },
-          ...(limit && { take: limit + 1 }),
-          cursor: cursor ? { id: cursor } : undefined,
-          orderBy: {
-            added: "desc",
-          },
-        })
-      ).map((product) => ({
-        ...product,
-      }));
+    .query(
+      async ({
+        input: { department, limit, cursor, query },
+        ctx: { user },
+      }) => {
+        const products = (
+          await prisma.product.findMany({
+            where: {
+              ...(department && { department }),
+              ...(query && { name: { search: query } }),
+            },
+            ...(limit && { take: limit + 1 }),
+            cursor: cursor ? { id: cursor } : undefined,
+            orderBy: {
+              added: "desc",
+            },
+          })
+        ).map((product) => ({
+          ...product,
+          cart: user?.cart?.find(({ productId }) => productId === product.id),
+        }));
 
-      let nextCursor: typeof cursor | undefined = undefined;
+        let nextCursor: typeof cursor | undefined = undefined;
 
-      if (products.length > limit) {
-        const nextItem = products.pop();
-        nextCursor = nextItem!.id;
-      }
+        if (products.length > limit) {
+          const nextItem = products.pop();
+          nextCursor = nextItem!.id;
+        }
 
-      return {
-        products,
-        nextCursor,
-      };
-    }),
+        return {
+          products,
+          nextCursor,
+        };
+      },
+    ),
 });
