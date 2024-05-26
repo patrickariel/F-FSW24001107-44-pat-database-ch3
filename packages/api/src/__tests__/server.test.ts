@@ -1,9 +1,7 @@
 import { createCaller } from "@repo/api";
-import { createContextInner } from "@repo/api/trpc";
 
 test("get products", async () => {
-  const ctx = await createContextInner({});
-  const caller = createCaller(ctx);
+  const caller = createCaller({ user: undefined });
 
   const products = await caller.product.find({
     department: "Computers",
