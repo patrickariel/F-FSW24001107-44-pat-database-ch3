@@ -2,6 +2,7 @@ import { getToken } from "@auth/core/jwt";
 import { prisma } from "@repo/db";
 import { TRPCError, initTRPC } from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
+import superjson from "superjson";
 import { z } from "zod";
 
 export async function createContext({
@@ -47,7 +48,7 @@ export async function createContext({
 
 type Context = Awaited<ReturnType<typeof createContext>>;
 
-const t = initTRPC.context<Context>().create();
+const t = initTRPC.context<Context>().create({ transformer: superjson });
 
 export const router = t.router;
 export const createCallerFactory = t.createCallerFactory;

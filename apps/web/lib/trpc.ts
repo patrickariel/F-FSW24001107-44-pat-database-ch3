@@ -2,6 +2,7 @@ import { getBaseUrl } from "./utils";
 import type { AppRouter } from "@repo/api";
 import { createTRPCClient, httpBatchLink } from "@trpc/client";
 import { cookies } from "next/headers";
+import superjson from "superjson";
 
 export default createTRPCClient<AppRouter>({
   links: [
@@ -18,6 +19,7 @@ export default createTRPCClient<AppRouter>({
           credentials: "include",
         });
       },
+      transformer: superjson,
     }),
   ],
 });
