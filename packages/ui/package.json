@@ -17,7 +17,9 @@
     "./toaster": "./src/toaster.tsx",
     "./toast": "./src/toast.tsx",
     "./use-toast": "./src/use-toast.ts",
-    "./skeleton": "./src/skeleton.tsx"
+    "./skeleton": "./src/skeleton.tsx",
+    "./content-section": "./src/content-section.tsx",
+    "./carousel": "./src/carousel.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0"
@@ -45,6 +47,8 @@
     "@radix-ui/react-toast": "^1.1.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "embla-carousel-autoplay": "^8.1.3",
+    "embla-carousel-react": "^8.1.3",
     "lucide-react": "^0.379.0",
     "react-hook-form": "^7.51.5",
     "tailwind-merge": "^2.3.0",
