@@ -11,14 +11,14 @@
     "lint": "eslint app/"
   },
   "dependencies": {
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2"
-  },
-  "devDependencies": {
-    "chalk": "^5.3.0",
-    "figures": "^6.1.0",
     "@repo/api": "^0.0.0",
     "@trpc/server": "^11.0.0-rc.374",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "chalk": "^5.3.0",
+    "figures": "^6.1.0"
+  },
+  "devDependencies": {
     "@types/express": "^4.17.21",
     "tsup": "^8.0.2"
   }
