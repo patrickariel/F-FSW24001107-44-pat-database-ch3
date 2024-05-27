@@ -6,7 +6,12 @@
     "./card": "./src/card.tsx",
     "./avatar": "./src/avatar.tsx",
     "./aspect-ratio": "./src/aspect-ratio.tsx",
-    "./lib/utils": "./src/lib/utils.ts"
+    "./lib/utils": "./src/lib/utils.ts",
+    "./button": "./src/button.tsx",
+    "./dialog": "./src/dialog.tsx",
+    "./form": "./src/form.tsx",
+    "./input": "./src/input.tsx",
+    "./label": "./src/label.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0"
@@ -24,12 +29,18 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.4.2",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
     "@radix-ui/react-avatar": "^1.0.4",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.379.0",
+    "react-hook-form": "^7.51.5",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.8"
   }
 }

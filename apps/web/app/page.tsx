@@ -1,3 +1,10 @@
+import { LoginDialog } from "@/components/login";
+import { Button } from "@repo/ui/button";
+
 export default function Page() {
-  return <h1 className="text-3xl font-bold underline">Hello, Next.js!</h1>;
+  return (
+    <div>
+      <LoginDialog trigger={<Button>Login</Button>} />
+    </div>
+  );
 }
