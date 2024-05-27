@@ -98,10 +98,10 @@ export function CartButton({
   );
 }
 
-export type ProductCardProps = {
+export interface ProductCardProps {
   product: RouterOutput["product"]["find"]["products"][number];
   ratio?: number;
-};
+}
 
 export function ProductCard({ product, ratio = 4 / 3 }: ProductCardProps) {
   const router = useRouter();

@@ -21,7 +21,6 @@ import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 
 function NavLink({ href, ...props }: Parameters<typeof Link>[0]) {
   const pathname = usePathname();
@@ -51,8 +50,6 @@ export function Navigation({
         }
       : skipToken,
   );
-
-  useEffect(() => {}, [session]);
 
   return (
     <div className="sticky top-0 z-50 border-b bg-zinc-950">
