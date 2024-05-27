@@ -19,7 +19,8 @@
     "./use-toast": "./src/use-toast.ts",
     "./skeleton": "./src/skeleton.tsx",
     "./content-section": "./src/content-section.tsx",
-    "./carousel": "./src/carousel.tsx"
+    "./carousel": "./src/carousel.tsx",
+    "./tooltip": "./src/tooltip.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0"
@@ -45,6 +46,7 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
+    "@radix-ui/react-tooltip": "^1.0.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "embla-carousel-autoplay": "^8.1.3",

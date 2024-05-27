@@ -5,6 +5,7 @@ import {
   ClientTrpcProvider,
 } from "@/components/providers";
 import { Toaster } from "@repo/ui/toaster";
+import { TooltipProvider } from "@repo/ui/tooltip";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -25,9 +26,11 @@ export default function RootLayout({
       <body className={inter.className}>
         <ClientTrpcProvider>
           <ClientSessionProvider>
-            <Navigation />
-            {children}
-            <Toaster />
+            <TooltipProvider>
+              <Navigation />
+              {children}
+              <Toaster />
+            </TooltipProvider>
           </ClientSessionProvider>
         </ClientTrpcProvider>
       </body>

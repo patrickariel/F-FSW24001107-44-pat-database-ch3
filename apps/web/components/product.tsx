@@ -8,6 +8,7 @@ import { AspectRatio } from "@repo/ui/aspect-ratio";
 import { Button, ButtonProps } from "@repo/ui/button";
 import { Card, CardContent, CardHeader } from "@repo/ui/card";
 import { Skeleton } from "@repo/ui/skeleton";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@repo/ui/tooltip";
 import { useToast } from "@repo/ui/use-toast";
 import { ShoppingCart, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -126,14 +127,21 @@ export function ProductCard({ product, ratio = 4 / 3 }: ProductCardProps) {
         </AspectRatio>
       </CardHeader>
       <CardContent className="select-none space-y-2 px-4 py-3">
-        <h2
-          className="line-clamp-1 cursor-pointer font-semibold"
-          onClick={() =>
-            router.push(`/product/${uuidTranslator.fromUUID(product.id)}`)
-          }
-        >
-          {product.name}
-        </h2>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <h2
+              className="line-clamp-1 cursor-pointer font-semibold"
+              onClick={() =>
+                router.push(`/product/${uuidTranslator.fromUUID(product.id)}`)
+              }
+            >
+              {product.name}
+            </h2>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{product.name}</p>
+          </TooltipContent>
+        </Tooltip>
         <p className="text-muted-foreground line-clamp-1 text-xs">
           {currency.format(product.price)}
         </p>
