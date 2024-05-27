@@ -1,4 +1,5 @@
 import { createCaller } from "@repo/api";
+import { expect, test } from "vitest";
 
 test("get products", async () => {
   const caller = createCaller({ user: undefined });
