@@ -1,4 +1,4 @@
-import { TrpcClientProvider } from "../components/providers";
+import { ClientTrpcProvider } from "../components/providers";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={inter.className}>
-        <TrpcClientProvider>{children}</TrpcClientProvider>
+        <ClientTrpcProvider>{children}</ClientTrpcProvider>
       </body>
     </html>
   );
