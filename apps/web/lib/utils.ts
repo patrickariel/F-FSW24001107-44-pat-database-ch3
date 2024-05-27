@@ -10,3 +10,10 @@ export function getBaseUrl() {
 
   return `http://localhost:${process.env.PORT ?? 3000}`;
 }
+
+export const currency = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});

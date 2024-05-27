@@ -1,5 +1,9 @@
-import { ClientTrpcProvider } from "../components/providers";
 import "./globals.css";
+import { Navigation } from "@/components/navigation";
+import {
+  ClientSessionProvider,
+  ClientTrpcProvider,
+} from "@/components/providers";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -18,7 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={inter.className}>
-        <ClientTrpcProvider>{children}</ClientTrpcProvider>
+        <ClientTrpcProvider>
+          <ClientSessionProvider>
+            <Navigation />
+            {children}
+          </ClientSessionProvider>
+        </ClientTrpcProvider>
       </body>
     </html>
   );
