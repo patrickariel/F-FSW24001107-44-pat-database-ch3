@@ -1,7 +1,10 @@
 import { appRouter } from "@repo/api";
 import { createContext } from "@repo/api/trpc";
 import * as trpcExpress from "@trpc/server/adapters/express";
+import { config } from "dotenv";
 import express from "express";
+
+config({ path: [".env.local", ".env"] });
 
 const app = express();
 const port = process.env.EXPRESS_PORT || 4000;
