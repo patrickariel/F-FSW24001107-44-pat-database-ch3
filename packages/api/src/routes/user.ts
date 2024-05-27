@@ -1,5 +1,5 @@
 import { publicProcedure, router, userProcedure } from "@repo/api/trpc";
-import { prisma } from "@repo/db";
+import { db } from "@repo/db";
 import { TRPCError } from "@trpc/server";
 import bcrypt from "bcryptjs";
 import _ from "lodash";
@@ -9,7 +9,7 @@ export const user = router({
   auth: publicProcedure
     .input(z.object({ email: z.string().email(), password: z.string().min(6) }))
     .mutation(async (opts) => {
-      const user = await prisma.user.findUnique({
+      const user = await db.user.findUnique({
         where: { email: opts.input.email },
       });
 
@@ -37,7 +37,7 @@ export const user = router({
       }),
     )
     .query(async ({ input: { id } }) => {
-      const user = await prisma.user.findUnique({
+      const user = await db.user.findUnique({
         where: { id },
       });
       if (user === null) {
@@ -51,7 +51,7 @@ export const user = router({
   getByEmail: userProcedure
     .input(z.object({ email: z.string().email() }))
     .query(async ({ input: { email } }) =>
-      _.omit(prisma.user.findUnique({ where: { email } }), "password"),
+      _.omit(db.user.findUnique({ where: { email } }), "password"),
     ),
   update: userProcedure
     .input(
@@ -63,7 +63,7 @@ export const user = router({
       }),
     )
     .mutation(async ({ input: { id, ...data } }) => {
-      const user = prisma.user.update({ where: { id }, data });
+      const user = db.user.update({ where: { id }, data });
       if (user === null) {
         throw new TRPCError({
           code: "NOT_FOUND",

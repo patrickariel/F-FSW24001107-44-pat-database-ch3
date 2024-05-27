@@ -1,5 +1,5 @@
 import { getToken } from "@auth/core/jwt";
-import { prisma } from "@repo/db";
+import { db } from "@repo/db";
 import { TRPCError, initTRPC } from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import superjson from "superjson";
@@ -36,7 +36,7 @@ export async function createContext({
     if (user && new Date() > new Date(user.exp * 1000)) {
       user = undefined;
     } else if (user) {
-      user = await prisma.user.findUnique({
+      user = await db.user.findUnique({
         where: { email: user.email },
         include: { cart: true },
       });

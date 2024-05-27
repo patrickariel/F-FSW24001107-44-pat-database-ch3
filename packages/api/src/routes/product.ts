@@ -1,5 +1,5 @@
 import { publicProcedure, router } from "../trpc";
-import { prisma } from "@repo/db";
+import { db } from "@repo/db";
 import z from "zod";
 
 export const departments = [
@@ -31,7 +31,7 @@ export const product = router({
   get: publicProcedure
     .input(z.object({ id: z.string().uuid() }))
     .query(async ({ input: { id }, ctx: { user } }) => {
-      const product = await prisma.product.findUnique({ where: { id } });
+      const product = await db.product.findUnique({ where: { id } });
       return product !== null
         ? {
             cart: user?.cart?.find(({ productId }) => productId === product.id),
@@ -54,7 +54,7 @@ export const product = router({
         ctx: { user },
       }) => {
         const products = (
-          await prisma.product.findMany({
+          await db.product.findMany({
             where: {
               ...(department && { department }),
               ...(query && { name: { search: query } }),
