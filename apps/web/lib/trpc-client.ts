@@ -5,16 +5,11 @@ import { createTRPCNext } from "@trpc/next";
 import superjson from "superjson";
 
 export const trpc = createTRPCNext<AppRouter>({
-  config(opts) {
+  config() {
     return {
       links: [
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
-          async headers() {
-            return {
-              // authorization: getAuthCookie(),
-            };
-          },
           transformer: superjson,
         }),
       ],
