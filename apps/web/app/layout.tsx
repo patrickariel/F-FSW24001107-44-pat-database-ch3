@@ -4,6 +4,7 @@ import {
   ClientSessionProvider,
   ClientTrpcProvider,
 } from "@/components/providers";
+import { Toaster } from "@repo/ui/toaster";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -26,6 +27,7 @@ export default function RootLayout({
           <ClientSessionProvider>
             <Navigation />
             {children}
+            <Toaster />
           </ClientSessionProvider>
         </ClientTrpcProvider>
       </body>
