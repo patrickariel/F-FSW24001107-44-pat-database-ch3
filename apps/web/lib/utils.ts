@@ -1,4 +1,6 @@
+import _ from "lodash";
 import short from "short-uuid";
+import type { Tuple } from "ts-toolbelt";
 
 export const uuidTranslator = short(short.constants.flickrBase58);
 
@@ -17,3 +19,7 @@ export const currency = new Intl.NumberFormat("en-US", {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
+
+export function fixed<I, N extends number>(iter: (num: number) => I, count: N) {
+  return _.times(count, iter) as Tuple.Repeat<I, N>;
+}
