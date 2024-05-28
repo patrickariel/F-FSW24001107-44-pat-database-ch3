@@ -1,4 +1,4 @@
-import { publicProcedure, router } from "../trpc";
+import { optUserProcedure, router } from "@repo/api/trpc";
 import { db } from "@repo/db";
 import z from "zod";
 
@@ -28,7 +28,7 @@ export const departments = [
 ] as const;
 
 export const product = router({
-  get: publicProcedure
+  get: optUserProcedure
     .input(z.object({ id: z.string().uuid() }))
     .query(async ({ input: { id }, ctx: { user } }) => {
       const product = await db.product.findUnique({ where: { id } });
@@ -39,7 +39,7 @@ export const product = router({
           }
         : null;
     }),
-  find: publicProcedure
+  find: optUserProcedure
     .input(
       z.object({
         limit: z.number().min(1).max(100).default(25),

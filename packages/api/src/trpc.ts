@@ -3,13 +3,13 @@ import { db } from "@repo/db";
 import { TRPCError, initTRPC } from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import superjson from "superjson";
-import { z } from "zod";
 
 export async function createContext({
   req,
   res: _,
 }: trpcExpress.CreateExpressContextOptions) {
-  let user;
+  let session: Awaited<ReturnType<typeof getToken>> | null = null;
+
   if (process.env.AUTH_SECRET && req.headers.cookie) {
     const jwt = await getToken({
       req: { headers: { cookie: req.headers.cookie } },
@@ -21,29 +21,12 @@ export async function createContext({
           : "authjs.session-token",
     });
 
-    user = z
-      .object({
-        name: z.string(),
-        email: z.string().email(),
-        picture: z.string().url(),
-        sub: z.string().uuid(),
-        iat: z.number(),
-        exp: z.number(),
-        jti: z.string().uuid(),
-      })
-      .safeParse(jwt).data;
-
-    if (user && new Date() > new Date(user.exp * 1000)) {
-      user = undefined;
-    } else if (user) {
-      user = await db.user.findUnique({
-        where: { email: user.email },
-        include: { cart: true },
-      });
+    if (jwt?.exp && new Date() < new Date(jwt.exp * 1000)) {
+      session = jwt;
     }
   }
 
-  return { user };
+  return { session };
 }
 
 type Context = Awaited<ReturnType<typeof createContext>>;
@@ -54,13 +37,39 @@ export const router = t.router;
 export const createCallerFactory = t.createCallerFactory;
 
 export const publicProcedure = t.procedure;
-export const userProcedure = t.procedure.use(async (opts) => {
-  if (!opts.ctx.user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
-  }
-  return opts.next({
-    ctx: {
-      user: opts.ctx.user,
-    },
-  });
-});
+export const optUserProcedure = t.procedure.use(
+  async ({ ctx: { session }, next }) =>
+    next({
+      ctx: {
+        user: session?.email
+          ? await db.user.findUnique({
+              where: { email: session.email },
+              include: { cart: true },
+            })
+          : null,
+        session,
+      },
+    }),
+);
+export const userProcedure = t.procedure.use(
+  async ({ ctx: { session }, next }) => {
+    if (!session) {
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    } else {
+      if (!session.email) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+      }
+
+      const user = await db.user.findUnique({
+        where: { email: session.email },
+        include: { cart: true },
+      });
+
+      if (!user) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+      }
+
+      return next({ ctx: { user, session } });
+    }
+  },
+);
