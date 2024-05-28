@@ -45,7 +45,7 @@ function useCarousel() {
 const Carousel = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> &
-    CarouselProps & { autoPlay: boolean; autoPlayOpts?: AutoplayOptionsType }
+    CarouselProps & { autoPlay?: boolean; autoPlayOpts?: AutoplayOptionsType }
 >(
   (
     {
@@ -55,7 +55,7 @@ const Carousel = React.forwardRef<
       plugins = [],
       className,
       children,
-      autoPlay,
+      autoPlay = false,
       autoPlayOpts,
       ...props
     },
