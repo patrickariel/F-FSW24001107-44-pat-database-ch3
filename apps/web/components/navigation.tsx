@@ -43,13 +43,9 @@ export function Navigation({
 }: React.HTMLAttributes<HTMLElement>) {
   const { data: session, status } = useSession();
 
-  const { data: user, isLoading } = trpc.user.getByEmail.useQuery(
-    session?.user?.email
-      ? {
-          email: session.user.email,
-        }
-      : skipToken,
-  );
+  const { data: user, isLoading } = trpc.user.get.useQuery(undefined, {
+    enabled: session ? true : false,
+  });
 
   return (
     <div className="sticky top-0 z-50 border-b bg-zinc-950">
