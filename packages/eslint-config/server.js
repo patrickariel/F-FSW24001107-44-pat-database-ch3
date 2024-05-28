@@ -15,8 +15,6 @@ module.exports = {
   extends: [
     require.resolve("@vercel/style-guide/eslint/node"),
     require.resolve("@vercel/style-guide/eslint/typescript"),
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/stylistic",
   ],
   parserOptions: {
     project,
