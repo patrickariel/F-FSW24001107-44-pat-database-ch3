@@ -1,11 +1,10 @@
 import { router, userProcedure } from "@repo/api/trpc";
-import { db } from "@repo/db";
 import { TRPCError } from "@trpc/server";
 import _ from "lodash";
 import { z } from "zod";
 
 export const user = router({
-  get: userProcedure.query(({ ctx: { user } }) => user),
+  get: userProcedure.query(({ ctx: { db, user } }) => user),
   update: userProcedure
     .input(
       z.object({
@@ -15,7 +14,7 @@ export const user = router({
         emailVerified: z.date().optional(),
       }),
     )
-    .mutation(async ({ input: { id, ...data } }) => {
+    .mutation(async ({ ctx: { db }, input: { id, ...data } }) => {
       const user = db.user.update({ where: { id }, data });
       if (user === null) {
         throw new TRPCError({

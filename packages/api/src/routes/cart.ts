@@ -1,5 +1,5 @@
 import { userProcedure, router } from "@repo/api/trpc";
-import { db, type Product } from "@repo/db";
+import type { Product } from "@repo/db";
 import { TRPCError } from "@trpc/server";
 import z from "zod";
 
@@ -8,6 +8,7 @@ export default router({
     async ({
       ctx: {
         user: { id: userId },
+        db,
       },
     }) =>
       await db.cartItem.findMany({
@@ -21,6 +22,7 @@ export default router({
       input: { productId },
       ctx: {
         user: { id: userId },
+        db,
       },
     }) =>
       await db.cartItem.findUnique({
@@ -42,6 +44,7 @@ export default router({
         input,
         ctx: {
           user: { id: userId },
+          db,
         },
       }) =>
         await Promise.all(
@@ -61,6 +64,7 @@ export default router({
         input: ids,
         ctx: {
           user: { id: userId },
+          db,
         },
       }) =>
         db.cartItem.deleteMany({
@@ -74,7 +78,7 @@ export default router({
     .input(
       z.array(z.object({ id: z.string().uuid(), quantity: z.number().min(1) })),
     )
-    .mutation(async ({ input, ctx: { user } }) => {
+    .mutation(async ({ input, ctx: { user, db } }) => {
       let products: { product: Product; quantity: number }[] = [];
       for (const { id, quantity } of input) {
         const product = await db.product.findUnique({

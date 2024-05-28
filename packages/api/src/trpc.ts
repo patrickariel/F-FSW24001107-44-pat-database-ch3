@@ -26,7 +26,7 @@ export async function createContext({
     }
   }
 
-  return { session };
+  return { session, db };
 }
 
 type Context = Awaited<ReturnType<typeof createContext>>;
@@ -38,7 +38,7 @@ export const createCallerFactory = t.createCallerFactory;
 
 export const publicProcedure = t.procedure;
 export const optUserProcedure = t.procedure.use(
-  async ({ ctx: { session }, next }) =>
+  async ({ ctx: { session, db }, next }) =>
     next({
       ctx: {
         user: session?.email
@@ -48,11 +48,12 @@ export const optUserProcedure = t.procedure.use(
             })
           : null,
         session,
+        db,
       },
     }),
 );
 export const userProcedure = t.procedure.use(
-  async ({ ctx: { session }, next }) => {
+  async ({ ctx: { session, db }, next }) => {
     if (!session) {
       throw new TRPCError({ code: "UNAUTHORIZED" });
     } else {
@@ -69,7 +70,7 @@ export const userProcedure = t.procedure.use(
         throw new TRPCError({ code: "UNAUTHORIZED" });
       }
 
-      return next({ ctx: { user, session } });
+      return next({ ctx: { user, session, db } });
     }
   },
 );
