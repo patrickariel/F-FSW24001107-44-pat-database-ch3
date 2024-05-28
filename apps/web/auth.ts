@@ -1,4 +1,5 @@
-import trpc from "@/lib/trpc";
+import { db } from "@repo/db";
+import bcrypt from "bcryptjs";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
@@ -16,7 +17,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             .object({ email: z.string().email(), password: z.string().min(6) })
             .parseAsync(credentials);
 
-          return await trpc.user.auth.mutate({ email, password });
+          const user = await db.user.findUnique({
+            where: { email },
+          });
+
+          if (!user) {
+            return null;
+          }
+
+          if (await bcrypt.compare(password, user.password)) {
+            return user;
+          } else {
+            return null;
+          }
         } catch (error) {
           console.log(error);
           return null;

@@ -1,34 +1,10 @@
-import { publicProcedure, router, userProcedure } from "@repo/api/trpc";
+import { router, userProcedure } from "@repo/api/trpc";
 import { db } from "@repo/db";
 import { TRPCError } from "@trpc/server";
-import bcrypt from "bcryptjs";
 import _ from "lodash";
 import { z } from "zod";
 
 export const user = router({
-  auth: publicProcedure
-    .input(z.object({ email: z.string().email(), password: z.string().min(6) }))
-    .mutation(async (opts) => {
-      const user = await db.user.findUnique({
-        where: { email: opts.input.email },
-      });
-
-      if (user === null) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "No such user in the database",
-        });
-      }
-
-      if (await bcrypt.compare(opts.input.password, user.password)) {
-        return _.omit(user, "password");
-      } else {
-        throw new TRPCError({
-          code: "FORBIDDEN",
-          message: "Invalid credentials",
-        });
-      }
-    }),
   get: userProcedure
     .input(z.object({ id: z.string().uuid() }))
     .output(
