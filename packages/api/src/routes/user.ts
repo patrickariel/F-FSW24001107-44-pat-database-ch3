@@ -4,7 +4,7 @@ import _ from "lodash";
 import { z } from "zod";
 
 export const user = router({
-  get: userProcedure.query(({ ctx: { db, user } }) => user),
+  get: userProcedure.query(({ ctx: { user } }) => user),
   update: userProcedure
     .input(
       z.object({

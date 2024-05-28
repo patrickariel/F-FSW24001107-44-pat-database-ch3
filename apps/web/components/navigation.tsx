@@ -15,7 +15,6 @@ import {
 } from "@repo/ui/dropdown-menu";
 import { cn } from "@repo/ui/lib/utils";
 import Spinner from "@repo/ui/spinner";
-import { skipToken } from "@tanstack/react-query";
 import { LogOut, Menu, ShoppingBag, ShoppingCart, User } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
