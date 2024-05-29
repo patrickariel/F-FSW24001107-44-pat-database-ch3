@@ -44,5 +44,7 @@ module.exports = {
   rules: {
     "import/no-default-export": "off",
     "no-console": "off",
+    "@typescript-eslint/no-shadow": "off",
+    "import/order": "off",
   },
 };

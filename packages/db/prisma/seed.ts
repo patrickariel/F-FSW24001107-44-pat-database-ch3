@@ -1,12 +1,12 @@
 import { faker } from "@faker-js/faker";
 import { PrismaClient } from "@prisma/client";
-import async from "async";
+import { map } from "async";
 import * as bcrypt from "bcrypt";
 import _ from "lodash";
 
 const prisma = new PrismaClient();
 
-async function main() {
+async function main(): Promise<void> {
   await prisma.user.create({
     data: {
       email: "john.smith@bling.com",
@@ -18,7 +18,7 @@ async function main() {
   });
 
   const extraUsers = await prisma.user.createManyAndReturn({
-    data: await async.map(_.range(0, 100), async () => ({
+    data: await map(_.range(0, 100), async () => ({
       email: faker.internet.email(),
       name: faker.person.fullName(),
       password: await bcrypt.hash("password", 10),
@@ -47,7 +47,7 @@ async function main() {
     data: _.flatten(
       products.map((product) =>
         _.range(0, _.random(20, 50)).map(() => ({
-          authorId: _.sample(extraUsers)!.id,
+          authorId: _.sample(extraUsers)!.id, // eslint-disable-line @typescript-eslint/no-non-null-assertion -- We know that extraUsers is not empty
           productId: product.id,
           review: faker.lorem.paragraphs(5),
           rating: _.sample([3.0, 3.5, 4.0, 4.5, 5.0]),

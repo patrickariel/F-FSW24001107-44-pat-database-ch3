@@ -2,7 +2,7 @@ import cart from "./routes/cart";
 import { product } from "./routes/product";
 import { user } from "./routes/user";
 import { createCallerFactory, router } from "./trpc";
-import { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
+import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 
 export const appRouter = router({
   product,

@@ -1,5 +1,5 @@
 import { optUserProcedure, router } from "@repo/api/trpc";
-import z from "zod";
+import { z } from "zod";
 
 export const departments = [
   "Automotive",
@@ -33,7 +33,7 @@ export const product = router({
       const product = await db.product.findUnique({ where: { id } });
       return product !== null
         ? {
-            cart: user?.cart?.find(({ productId }) => productId === product.id),
+            cart: user?.cart.find(({ productId }) => productId === product.id),
             ...product,
           }
         : null;
@@ -66,14 +66,14 @@ export const product = router({
           })
         ).map((product) => ({
           ...product,
-          cart: user?.cart?.find(({ productId }) => productId === product.id),
+          cart: user?.cart.find(({ productId }) => productId === product.id),
         }));
 
-        let nextCursor: typeof cursor | undefined = undefined;
+        let nextCursor: typeof cursor | undefined;
 
         if (products.length > limit) {
           const nextItem = products.pop();
-          nextCursor = nextItem!.id;
+          nextCursor = nextItem!.id; // eslint-disable-line @typescript-eslint/no-non-null-assertion -- We know that products is not empty
         }
 
         return {

@@ -1,13 +1,16 @@
-import { getToken } from "@auth/core/jwt";
-import { db } from "@repo/db";
+import { type JWT, getToken } from "@auth/core/jwt";
+import { type PrismaClient, db } from "@repo/db";
 import { TRPCError, initTRPC } from "@trpc/server";
-import * as trpcExpress from "@trpc/server/adapters/express";
+import type * as trpcExpress from "@trpc/server/adapters/express";
 import superjson from "superjson";
 
 export async function createContext({
   req,
   res: _,
-}: trpcExpress.CreateExpressContextOptions) {
+}: trpcExpress.CreateExpressContextOptions): Promise<{
+  session: JWT | null;
+  db: PrismaClient;
+}> {
   let session: Awaited<ReturnType<typeof getToken>> | null = null;
 
   if (process.env.AUTH_SECRET && req.headers.cookie) {

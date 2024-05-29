@@ -1,7 +1,6 @@
 import { userProcedure, router } from "@repo/api/trpc";
-import type { Product } from "@repo/db";
 import { TRPCError } from "@trpc/server";
-import z from "zod";
+import { z } from "zod";
 
 export default router({
   list: userProcedure.query(
@@ -11,7 +10,7 @@ export default router({
         db,
       },
     }) =>
-      await db.cartItem.findMany({
+      db.cartItem.findMany({
         where: { userId },
         include: { product: true },
         orderBy: { added: "desc" },
@@ -25,7 +24,7 @@ export default router({
         db,
       },
     }) =>
-      await db.cartItem.findUnique({
+      db.cartItem.findUnique({
         where: {
           userId_productId: {
             productId,
@@ -47,13 +46,12 @@ export default router({
           db,
         },
       }) =>
-        await Promise.all(
-          input.map(
-            async ({ quantity, id: productId }) =>
-              await db.cartItem.update({
-                data: { quantity },
-                where: { userId_productId: { userId, productId } },
-              }),
+        Promise.all(
+          input.map(async ({ quantity, id: productId }) =>
+            db.cartItem.update({
+              data: { quantity },
+              where: { userId_productId: { userId, productId } },
+            }),
           ),
         ),
     ),
@@ -79,8 +77,7 @@ export default router({
       z.array(z.object({ id: z.string().uuid(), quantity: z.number().min(1) })),
     )
     .mutation(async ({ input, ctx: { user, db } }) => {
-      let products: { product: Product; quantity: number }[] = [];
-      for (const { id, quantity } of input) {
+      const products = input.map(async ({ id, quantity }) => {
         const product = await db.product.findUnique({
           where: { id },
         });
@@ -90,64 +87,60 @@ export default router({
             code: "NOT_FOUND",
             message: `The product with the following id was not found: ${id}`,
           });
+        } else if (product.stock === 0) {
+          throw new TRPCError({
+            code: "PRECONDITION_FAILED",
+            message: `${product.name} has been sold out.`,
+          });
         } else {
-          if (product.stock === 0) {
+          const inCart = user.cart.find(({ productId }) => productId === id);
+
+          if (inCart) {
+            if (inCart.quantity === product.stock) {
+              throw new TRPCError({
+                code: "PRECONDITION_FAILED",
+                message: `All ${product.stock} ${product.name} ${product.stock > 1 ? "are" : "is"} in your cart`,
+              });
+            } else if (inCart.quantity + quantity > product.stock) {
+              throw new TRPCError({
+                code: "PRECONDITION_FAILED",
+                message: `Can't add any more ${product.name} to your cart`,
+              });
+            } else {
+              await db.cartItem.update({
+                where: {
+                  userId_productId: {
+                    productId: product.id,
+                    userId: user.id,
+                  },
+                },
+                data: {
+                  quantity: inCart.quantity + quantity,
+                },
+              });
+              return {
+                product,
+                quantity: inCart.quantity + quantity,
+              };
+            }
+          } else if (quantity > product.stock) {
             throw new TRPCError({
               code: "PRECONDITION_FAILED",
-              message: `${product.name} has been sold out.`,
+              message: `Not enough ${product.name} in stock`,
             });
           } else {
-            let in_cart = user.cart.find(({ productId }) => productId === id);
-
-            if (in_cart) {
-              if (in_cart.quantity === product.stock) {
-                throw new TRPCError({
-                  code: "PRECONDITION_FAILED",
-                  message: `All ${product.stock} ${product.name} ${product.stock > 1 ? "are" : "is"} in your cart`,
-                });
-              } else if (in_cart.quantity + quantity > product.stock) {
-                throw new TRPCError({
-                  code: "PRECONDITION_FAILED",
-                  message: `Can't add any more ${product.name} to your cart`,
-                });
-              } else {
-                await db.cartItem.update({
-                  where: {
-                    userId_productId: {
-                      productId: product.id,
-                      userId: user.id,
-                    },
-                  },
-                  data: {
-                    quantity: in_cart.quantity + quantity,
-                  },
-                });
-                products.push({
-                  product,
-                  quantity: in_cart.quantity + quantity,
-                });
-              }
-            } else {
-              if (quantity > product.stock) {
-                throw new TRPCError({
-                  code: "PRECONDITION_FAILED",
-                  message: `Not enough ${product.name} in stock`,
-                });
-              } else {
-                await db.cartItem.create({
-                  data: {
-                    userId: user.id,
-                    productId: product.id,
-                    quantity: quantity,
-                  },
-                });
-                products.push({ product, quantity });
-              }
-            }
+            await db.cartItem.create({
+              data: {
+                userId: user.id,
+                productId: product.id,
+                quantity,
+              },
+            });
+            return { product, quantity };
           }
         }
-      }
+      });
 
-      return products;
+      return Promise.all(products);
     }),
 });
