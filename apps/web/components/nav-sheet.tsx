@@ -23,7 +23,7 @@ function NavLink({ href, ...props }: Parameters<typeof Link>[0]) {
 export function NavSheet() {
   return (
     <Sheet>
-      <SheetTrigger>
+      <SheetTrigger asChild>
         <Button variant="ghost" className="px-2 lg:hidden">
           <Menu className="stroke-zinc-400" />
         </Button>
