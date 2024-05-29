@@ -7,9 +7,9 @@ import {
 import { Toaster } from "@repo/ui/toaster";
 import { TooltipProvider } from "@repo/ui/tooltip";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Comfortaa } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const font = Comfortaa({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Turborepo",
@@ -23,7 +23,7 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en" className="dark">
-      <body className={inter.className}>
+      <body className={font.className}>
         <ClientTrpcProvider>
           <ClientSessionProvider>
             <TooltipProvider>
