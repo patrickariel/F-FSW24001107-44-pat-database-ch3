@@ -3,28 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./card": "./src/card.tsx",
-    "./avatar": "./src/avatar.tsx",
-    "./aspect-ratio": "./src/aspect-ratio.tsx",
-    "./lib/utils": "./src/lib/utils.ts",
-    "./button": "./src/button.tsx",
-    "./dialog": "./src/dialog.tsx",
-    "./form": "./src/form.tsx",
-    "./input": "./src/input.tsx",
-    "./label": "./src/label.tsx",
-    "./dropdown-menu": "./src/dropdown-menu.tsx",
-    "./spinner": "./src/spinner.tsx",
-    "./toaster": "./src/toaster.tsx",
-    "./toast": "./src/toast.tsx",
+    "./lib/*": "./src/lib/*.ts",
     "./use-toast": "./src/use-toast.ts",
-    "./skeleton": "./src/skeleton.tsx",
-    "./content-section": "./src/content-section.tsx",
-    "./carousel": "./src/carousel.tsx",
-    "./tooltip": "./src/tooltip.tsx",
-    "./image": "./src/image.tsx",
-    "./scroll-area": "./src/scroll-area.tsx",
-    "./separator": "./src/separator.tsx",
-    "./select": "./src/select.tsx"
+    "./*": "./src/*.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0"
