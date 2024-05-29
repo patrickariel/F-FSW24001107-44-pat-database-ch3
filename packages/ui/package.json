@@ -20,7 +20,8 @@
     "./skeleton": "./src/skeleton.tsx",
     "./content-section": "./src/content-section.tsx",
     "./carousel": "./src/carousel.tsx",
-    "./tooltip": "./src/tooltip.tsx"
+    "./tooltip": "./src/tooltip.tsx",
+    "./image": "./src/image.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0"
