@@ -1,6 +1,7 @@
 "use client";
 
 import { LoginDialog } from "./login";
+import { SearchBox } from "@/components/search-box";
 import { trpc } from "@/lib/trpc-client";
 import { currency } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@repo/ui/avatar";
@@ -48,9 +49,9 @@ export function Navigation({
 
   return (
     <div className="sticky top-0 z-50 border-b bg-zinc-950">
-      <div className="flex flex-row items-center justify-between space-x-4 px-3 lg:container">
-        <div className="flex h-16 items-center gap-4 lg:px-4">
-          <Button variant="ghost" className="px-2 lg:hidden">
+      <div className="flex flex-row items-center justify-between gap-3 px-3 lg:container lg:gap-4">
+        <div className="flex h-16 items-center sm:gap-2 lg:gap-4 lg:pr-4">
+          <Button variant="ghost" className="pl-0 pr-2 md:pl-2 lg:hidden">
             <Menu className="stroke-zinc-400" />
           </Button>
           <Link
@@ -74,13 +75,14 @@ export function Navigation({
             <NavLink href="/health">Health</NavLink>
           </nav>
         </div>
-        <div className="flex flex-row items-center justify-end space-x-5">
+        <SearchBox />
+        <div className="flex flex-row items-center justify-end gap-1 md:gap-3 lg:gap-5">
           {status === "loading" || isLoading ? (
             <Spinner size={20} />
           ) : (
             <>
               {status === "authenticated" ? (
-                <Button asChild variant="ghost" className="px-2">
+                <Button asChild variant="ghost" className="pl-0 pr-2 md:pl-2">
                   <Link href="/cart">
                     <ShoppingCart size={20} />
                   </Link>
@@ -88,7 +90,7 @@ export function Navigation({
               ) : (
                 <LoginDialog
                   trigger={
-                    <Button variant="ghost" className="px-2">
+                    <Button variant="ghost" className="pl-0 pr-2 md:pl-2">
                       <ShoppingCart size={20} />
                     </Button>
                   }

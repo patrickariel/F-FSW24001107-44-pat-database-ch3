@@ -43,7 +43,7 @@ export const product = router({
       z.object({
         limit: z.number().min(1).max(100).default(25),
         cursor: z.string().uuid().nullish(),
-        department: z.enum(departments).optional(),
+        department: z.string().optional(),
         query: z.string().optional(),
       }),
     )
