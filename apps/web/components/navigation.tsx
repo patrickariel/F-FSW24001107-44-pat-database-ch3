@@ -49,8 +49,8 @@ export function Navigation({
 
   return (
     <div className="sticky top-0 z-50 border-b bg-zinc-950">
-      <div className="flex flex-row items-center justify-between gap-3 px-3 lg:container lg:gap-4">
-        <div className="flex h-16 items-center sm:gap-2 lg:gap-4 lg:pr-4">
+      <div className="flex flex-row items-center justify-between gap-1 pl-1 pr-3 lg:container sm:gap-2 lg:gap-4">
+        <div className="mr-2 flex h-16 items-center md:mr-0 lg:gap-4 lg:pr-4">
           <Button variant="ghost" className="pl-0 pr-2 md:pl-2 lg:hidden">
             <Menu className="stroke-zinc-400" />
           </Button>
@@ -82,7 +82,7 @@ export function Navigation({
           ) : (
             <>
               {status === "authenticated" ? (
-                <Button asChild variant="ghost" className="pl-0 pr-2 md:pl-2">
+                <Button asChild variant="ghost" className="px-2">
                   <Link href="/cart">
                     <ShoppingCart size={20} />
                   </Link>
@@ -90,7 +90,7 @@ export function Navigation({
               ) : (
                 <LoginDialog
                   trigger={
-                    <Button variant="ghost" className="pl-0 pr-2 md:pl-2">
+                    <Button variant="ghost" className="px-2">
                       <ShoppingCart size={20} />
                     </Button>
                   }
