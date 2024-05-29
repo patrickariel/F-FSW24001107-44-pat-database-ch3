@@ -10,11 +10,11 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@repo/ui/carousel";
+import { Image } from "@repo/ui/image";
 import { Input } from "@repo/ui/input";
 import _ from "lodash";
 import { Minus, Plus, Star } from "lucide-react";
 import ErrorPage from "next/error";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -52,7 +52,7 @@ export default function Page({ params }: { params: { id: string } }) {
   return (
     <div className="container flex items-center justify-center p-2 lg:p-8">
       <div className="bg-card text-card-foreground container flex h-full flex-col items-center justify-evenly gap-8 rounded-xl p-8 shadow sm:gap-14 lg:flex-row lg:items-start lg:gap-5">
-        <div className="flex max-w-[600px] flex-col items-center gap-10">
+        <div className="flex max-w-[600px] flex-col items-center gap-5 sm:gap-10">
           <Carousel setApi={setApi}>
             <CarouselContent>
               {_.range(0, 4).map((i) => (
@@ -70,24 +70,24 @@ export default function Page({ params }: { params: { id: string } }) {
               ))}
             </CarouselContent>
           </Carousel>
-          <div className="flex flex-row gap-2 sm:gap-4">
+          <div className="grid grid-cols-4 gap-4">
             {_.range(0, 4).map((i) => (
               <Image
                 key={i}
                 src={product.images[i]!}
                 alt={`${product.name} ${i}`}
                 onClick={() => setSelected(i)}
-                onLoadingComplete={() =>
+                onLoadingComplete={() => {
                   setLoaded((value) => {
                     value[i] = true;
                     return [...value];
-                  })
-                }
-                className={`w-full cursor-pointer rounded-xl transition-all ${loaded[i] && selected === i ? "outline outline-4 outline-offset-2 outline-sky-500" : ""}`}
+                  });
+                }}
+                className={`cursor-pointer rounded-xl transition-all ${loaded[i] && selected === i ? "outline outline-4 outline-offset-2 outline-sky-500" : ""}`}
                 sizes="(min-width: 1024px) 30vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
                 width={140}
                 height={100}
-                loading="lazy"
+                loading="eager"
               />
             ))}
           </div>

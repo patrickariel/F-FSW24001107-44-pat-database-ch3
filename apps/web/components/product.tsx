@@ -7,12 +7,12 @@ import type { RouterOutput } from "@repo/api";
 import { AspectRatio } from "@repo/ui/aspect-ratio";
 import { Button, ButtonProps } from "@repo/ui/button";
 import { Card, CardContent, CardHeader } from "@repo/ui/card";
+import { Image } from "@repo/ui/image";
 import { Skeleton } from "@repo/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@repo/ui/tooltip";
 import { useToast } from "@repo/ui/use-toast";
 import { ShoppingCart, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";
 
