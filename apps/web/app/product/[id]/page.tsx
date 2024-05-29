@@ -127,7 +127,7 @@ export default function Page({ params }: { params: { id: string } }) {
             {product ? (
               <p className="text-muted-foreground">(246 reviews)</p>
             ) : (
-              <Skeleton className="h-4 w-full basis-1/3" />
+              <Skeleton className="h-4 w-full basis-1/3 rounded-xl" />
             )}
           </div>
           <div className="flex flex-col gap-2">
@@ -137,36 +137,36 @@ export default function Page({ params }: { params: { id: string } }) {
                   Department:
                 </p>
               ) : (
-                <Skeleton className="h-5 w-full basis-1/6" />
+                <Skeleton className="h-5 w-full basis-1/6 rounded-xl" />
               )}
               {product ? (
                 <p>{product.department}</p>
               ) : (
-                <Skeleton className="h-5 w-full basis-1/4" />
+                <Skeleton className="h-5 w-full basis-1/4 rounded-xl" />
               )}
             </article>
             <article className="flex flex-row gap-2">
               {product ? (
                 <p className="text-muted-foreground">Type:</p>
               ) : (
-                <Skeleton className="h-5 w-full basis-1/12" />
+                <Skeleton className="h-5 w-full basis-1/12 rounded-xl" />
               )}
               {product ? (
                 <p>{product.adjective}</p>
               ) : (
-                <Skeleton className="h-5 w-full basis-1/3" />
+                <Skeleton className="h-5 w-full basis-1/3 rounded-xl" />
               )}
             </article>
             <article className="flex flex-row gap-2">
               {product ? (
                 <p className="text-muted-foreground">Material:</p>
               ) : (
-                <Skeleton className="h-5 w-full basis-1/5" />
+                <Skeleton className="h-5 w-full basis-1/5 rounded-xl" />
               )}
               {product ? (
                 <p>{product.material}</p>
               ) : (
-                <Skeleton className="h-5 w-full basis-1/4" />
+                <Skeleton className="h-5 w-full basis-1/4 rounded-xl" />
               )}
             </article>
           </div>
@@ -176,7 +176,7 @@ export default function Page({ params }: { params: { id: string } }) {
                 {currency.format(product.price)}
               </h1>
             ) : (
-              <Skeleton className="h-7 w-full max-w-28" />
+              <Skeleton className="h-7 w-full max-w-28 rounded-xl" />
             )}
             <div className="flex w-full flex-row items-center gap-4">
               {product ? (
@@ -246,12 +246,19 @@ export default function Page({ params }: { params: { id: string } }) {
             {product ? (
               <h1 className="text-xl font-bold md:text-2xl">Description</h1>
             ) : (
-              <Skeleton className="h-7 w-full max-w-64" />
+              <Skeleton className="mb-5 h-7 w-full max-w-64 rounded-xl" />
             )}
             {product ? (
               <p className="text-muted-foreground">{product.description}</p>
             ) : (
-              <Skeleton className="h-[365px] w-full max-w-[600px]" />
+              _.range(0, 10).map(() => (
+                <Skeleton
+                  className={`h-4 max-w-[600px] rounded-xl`}
+                  style={{
+                    width: `${_.random(33, 100)}%`,
+                  }}
+                />
+              ))
             )}
           </div>
         </div>
