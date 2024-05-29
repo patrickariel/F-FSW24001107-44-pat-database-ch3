@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node dist/index.js",
-    "dev": "tsup --watch . --watch ../../packages/api --watch ../../packages/db --onSuccess \"node dist/index.js\" app",
+    "start": "node dist/index.mjs",
+    "dev": "tsup --watch . --watch ../../packages/api --watch ../../packages/db --onSuccess \"node dist/index.mjs\" app",
     "build": "tsup app",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
