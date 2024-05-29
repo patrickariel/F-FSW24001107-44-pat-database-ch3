@@ -1,6 +1,7 @@
 "use client";
 
 import { LoginDialog } from "./login";
+import { NavSheet } from "./nav-sheet";
 import { SearchBox } from "@/components/search-box";
 import { trpc } from "@/lib/trpc-client";
 import { currency } from "@/lib/utils";
@@ -16,7 +17,7 @@ import {
 } from "@repo/ui/dropdown-menu";
 import { cn } from "@repo/ui/lib/utils";
 import Spinner from "@repo/ui/spinner";
-import { LogOut, Menu, ShoppingBag, ShoppingCart, User } from "lucide-react";
+import { LogOut, ShoppingBag, ShoppingCart, User } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -51,9 +52,7 @@ export function Navigation({
     <div className="sticky top-0 z-50 border-b bg-zinc-950">
       <div className="flex flex-row items-center justify-between gap-1 pl-1 pr-3 lg:container sm:gap-2 lg:gap-4">
         <div className="mr-2 flex h-16 items-center md:mr-0 lg:gap-4 lg:pr-4">
-          <Button variant="ghost" className="pl-0 pr-2 md:pl-2 lg:hidden">
-            <Menu className="stroke-zinc-400" />
-          </Button>
+          <NavSheet />
           <Link
             href="/"
             className="hover:text-primary flex flex-row items-center space-x-2 text-sm font-medium transition-colors"
