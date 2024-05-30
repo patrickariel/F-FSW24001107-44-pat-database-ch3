@@ -33,6 +33,10 @@ async function main(): Promise<void> {
       images: _.range(0, 5).map(() =>
         faker.image.urlPicsumPhotos({ width: 1200, height: 900 }),
       ),
+      added: faker.date.between({
+        from: "2007-01-01T00:00:00.000Z",
+        to: "2024-01-01T00:00:00.000Z",
+      }),
       department: faker.commerce.department(),
       price: _.random(1, 35, true),
       stock: _.random(1, 32),
