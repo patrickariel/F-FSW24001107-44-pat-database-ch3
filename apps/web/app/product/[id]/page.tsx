@@ -172,7 +172,7 @@ export default function Page({ params }: { params: { id: string } }) {
           </div>
           <div className="flex flex-row items-center justify-start gap-8">
             {product ? (
-              <h1 className="text-xl font-semibold md:self-start md:pb-1 md:text-3xl">
+              <h1 className="text-xl font-semibold md:text-3xl">
                 {currency.format(product.price)}
               </h1>
             ) : (
