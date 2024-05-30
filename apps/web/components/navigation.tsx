@@ -22,6 +22,7 @@ import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Suspense } from "react";
 
 function NavLink({ href, ...props }: Parameters<typeof Link>[0]) {
   const pathname = usePathname();
@@ -74,7 +75,9 @@ export function Navigation({
             <NavLink href="/health">Health</NavLink>
           </nav>
         </div>
-        <SearchBox />
+        <Suspense>
+          <SearchBox />
+        </Suspense>
         <div className="flex flex-row items-center justify-end gap-1 md:gap-3 lg:gap-5">
           {status === "loading" || isLoading ? (
             <Spinner size={20} />

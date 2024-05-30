@@ -5,10 +5,10 @@ import { trpc } from "@/lib/trpc-client";
 import Spinner from "@repo/ui/spinner";
 import { Frown } from "lucide-react";
 import { redirect, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
-export default function SearchPage() {
+function Search() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query");
   const department = searchParams.get("department") ?? "All";
@@ -73,5 +73,13 @@ export default function SearchPage() {
         <h5 className="text-muted-foreground mt-10">No more results.</h5>
       )}
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <Search />
+    </Suspense>
   );
 }
