@@ -40,29 +40,99 @@ export const product = router({
     }),
   find: optUserProcedure
     .input(
-      z.object({
-        limit: z.number().min(1).max(100).default(25),
-        cursor: z.string().uuid().nullish(),
-        department: z.string().optional(),
-        query: z.string().optional(),
-      }),
+      z
+        .object({
+          limit: z.number().min(1).max(100).default(25),
+          cursor: z.string().uuid().nullish(),
+          department: z.string().nullish(),
+          query: z.string().nullish(),
+          sort: z.enum(["price", "added", "relevance"]).nullish(),
+          order: z.enum(["desc", "asc"]).nullish(),
+          minPrice: z.number().nullish(),
+          maxPrice: z.number().nullish(),
+          minRating: z.number().nullish(),
+          maxRating: z.number().nullish(),
+        })
+        .transform(
+          (
+            obj,
+          ): typeof obj & {
+            sort: "price" | "added" | "relevance";
+            order: "asc" | "desc";
+          } => {
+            const transformed = {
+              ...obj,
+              ...(obj.query && { query: obj.query.split(/\s+/).join(" & ") }),
+              sort: obj.sort ?? "added",
+              order: obj.order ?? "desc",
+            };
+            if (!obj.sort && obj.query) {
+              transformed.sort = "relevance";
+            }
+            return transformed;
+          },
+        ),
     )
     .query(
       async ({
-        input: { department, limit, cursor, query },
+        input: {
+          department,
+          limit,
+          cursor,
+          query,
+          sort,
+          order,
+          minPrice,
+          maxPrice,
+          minRating,
+          maxRating,
+        },
         ctx: { db, user },
       }) => {
         const products = (
           await db.product.findMany({
             where: {
-              ...(department && { department }),
-              ...(query && { name: { search: query } }),
+              ...(department && department !== "All" && { department }),
+              ...(query && {
+                name: { search: query },
+                description: { search: query },
+              }),
+              ...((minPrice || maxPrice) && {
+                price: {
+                  ...(minPrice && { gte: minPrice }),
+                  ...(maxPrice && { lte: maxPrice }),
+                },
+              }),
+              ...((minRating || maxRating) && {
+                id: {
+                  in: (
+                    await db.review.groupBy({
+                      by: ["productId"],
+                      having: {
+                        rating: {
+                          _avg: {
+                            ...(minRating && { gte: minRating }),
+                            ...(maxRating && { lte: maxRating }),
+                          },
+                        },
+                      },
+                    })
+                  ).map((review) => review.productId),
+                },
+              }),
             },
+            orderBy:
+              query && sort === "relevance"
+                ? {
+                    _relevance: {
+                      fields: ["name", "description"],
+                      search: query,
+                      sort: order,
+                    },
+                  }
+                : { [sort === "relevance" ? "added" : sort]: order },
             ...(limit && { take: limit + 1 }),
             cursor: cursor ? { id: cursor } : undefined,
-            orderBy: {
-              added: "desc",
-            },
           })
         ).map((product) => ({
           ...product,

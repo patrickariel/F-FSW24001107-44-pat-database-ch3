@@ -6,5 +6,6 @@ export type {
   CartItem,
   Review,
   PrismaClient,
+  Prisma,
 } from "@prisma/client";
 export const db = new PrismaClient();
