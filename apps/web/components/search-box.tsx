@@ -47,20 +47,13 @@ export function SearchBox() {
     resolver: zodResolver(FormSchema),
   });
 
-  const createQueryString = useCallback(
-    (newParams: Record<string, string>) => {
-      const params = new URLSearchParams(searchParams.toString());
-      for (const [name, value] of Object.entries(newParams)) {
-        params.delete(name);
-        params.set(name, value);
-      }
-      return params.toString();
-    },
-    [searchParams],
-  );
-
-  function onSubmit({ query, department }: z.infer<typeof FormSchema>) {
-    push(`/search?${createQueryString({ query, department })}`);
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    const params = new URLSearchParams(searchParams.toString());
+    for (const [name, value] of Object.entries(data)) {
+      params.delete(name);
+      params.set(name, value);
+    }
+    push(`/search?${params.toString()}`);
   }
 
   return (
