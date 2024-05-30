@@ -21,7 +21,7 @@ export default function Page() {
   });
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-8">
+    <main className="flex flex-col items-center justify-between p-8">
       <div className="container max-w-5xl">
         <ContentSection
           title="Best seller in Outdoors"

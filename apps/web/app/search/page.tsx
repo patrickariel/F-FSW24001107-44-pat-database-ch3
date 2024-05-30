@@ -323,7 +323,7 @@ function SearchResults({
 }: ReturnType<typeof trpc.product.find.useInfiniteQuery>) {
   if (!data) {
     return (
-      <div className="flex h-[calc(100vh-185px)] w-full items-center justify-center">
+      <div className="flex flex-1 items-center justify-center">
         <Spinner />
       </div>
     );
@@ -331,7 +331,7 @@ function SearchResults({
 
   if (data.pages.length === 0 || data.pages[0]!.products.length === 0) {
     return (
-      <div className="flex h-[calc(100vh-185px)] flex-col items-center justify-center text-center">
+      <div className="flex flex-1 flex-col items-center justify-center text-center">
         <div className="pb-24">
           <Frown size={350} className="stroke-zinc-900 pb-[25px]" />
           <h6 className="text-2xl font-bold text-zinc-800">No matches.</h6>
@@ -395,7 +395,7 @@ function Search() {
   console.log(data?.pages.length);
 
   return (
-    <div className="container flex flex-col items-center justify-center gap-5 py-5 xl:px-28">
+    <div className="container flex flex-1 flex-grow flex-col items-center justify-start gap-5 py-5 xl:px-28">
       <div className="flex w-full flex-row items-center justify-between">
         <h3 className="hidden text-2xl font-semibold sm:block">Results</h3>
         <FilterForm defaultValues={searchToFilter(search)} />

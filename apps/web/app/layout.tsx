@@ -27,8 +27,10 @@ export default function RootLayout({
         <ClientTrpcProvider>
           <ClientSessionProvider>
             <TooltipProvider>
-              <Navigation />
-              {children}
+              <div className="flex h-screen flex-col">
+                <Navigation />
+                {children}
+              </div>
               <Toaster />
             </TooltipProvider>
           </ClientSessionProvider>

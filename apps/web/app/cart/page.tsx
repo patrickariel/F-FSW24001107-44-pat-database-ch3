@@ -47,20 +47,18 @@ export default function Cart() {
 
   if (cart.length === 0) {
     return (
-      <div className="flex h-[calc(100vh-65px)] flex-col items-center justify-center text-center">
-        <div className="pb-24">
-          <ShoppingCart size={350} className="stroke-zinc-900 pr-11" />
-          <h6 className="text-2xl font-bold text-zinc-800">
-            Your cart is empty.
-          </h6>
-        </div>
+      <div className="flex flex-1 flex-col items-center justify-center text-center">
+        <ShoppingCart size={350} className="stroke-zinc-900 pr-11" />
+        <h6 className="text-2xl font-bold text-zinc-800">
+          Your cart is empty.
+        </h6>
       </div>
     );
   }
 
   return (
-    <div className="container flex h-[calc(100vh-65px)] flex-col items-center justify-center gap-5  p-8 sm:flex-col md:flex-col lg:flex-row lg:gap-11">
-      <ScrollArea className="h-full w-[calc(100vw-50px)] flex-row rounded-md border p-4 md:w-[calc(100vw-150px)] lg:m-0 lg:w-[650px]">
+    <div className="container flex min-h-0 grow flex-col items-start justify-center gap-5 px-8 py-8 md:items-center md:px-16 lg:flex-row lg:gap-11">
+      <ScrollArea className="flex grow basis-10/12 flex-row self-stretch rounded-md border p-4 lg:m-0 lg:basis-8/12">
         <div className="flex flex-col">
           {cart.map((item, i) => (
             <>
@@ -83,7 +81,7 @@ export default function Cart() {
           ))}
         </div>
       </ScrollArea>
-      <div className="flex w-[300px] flex-col justify-center space-y-3 md:w-[360px] md:pt-8 lg:w-[350px] lg:space-y-6 lg:self-start">
+      <div className="flex min-w-[300px] grow basis-2/12 flex-col justify-center space-y-3 self-center sm:min-w-[400px] md:pt-4 lg:basis-4/12 lg:space-y-6 lg:self-start">
         <div className="flex flex-col space-y-3 text-left lg:space-y-5">
           <h1 className="flex flex-row items-center gap-3 text-xl font-semibold tracking-tight lg:text-2xl">
             <ShoppingBasket size={25} />

@@ -69,7 +69,10 @@ export function CartItem({
 
   return (
     <div
-      className={cn("flex w-full flex-col justify-center py-3", className)}
+      className={cn(
+        "flex max-h-screen w-full flex-col justify-center py-3",
+        className,
+      )}
       key={id}
       {...props}
     >
@@ -100,7 +103,7 @@ export function CartItem({
                 className="min-h-5 min-w-5 cursor-pointer stroke-zinc-500 hover:stroke-red-900"
               />
             </div>
-            <h2 className="text-muted-foreground line-clamp-1 max-w-96 text-xs lg:text-sm">
+            <h2 className="text-muted-foreground line-clamp-1 max-w-[90%] text-xs lg:text-sm">
               {description}
             </h2>
           </div>
@@ -125,13 +128,13 @@ export function CartItem({
                   setLocalQty(quantity);
                   updateCart.mutate([{ id, quantity }]);
                 }}
-                className="size-8 rounded-r-none"
+                className="size-7 rounded-r-none md:size-8"
               >
                 <Minus size={15} />
               </Button>
               <Input
                 value={localQty === 0 ? "" : localQty}
-                className="h-8 w-11 rounded-none border-x-0 text-center"
+                className="h-7 w-9 rounded-none border-x-0 text-center text-xs md:h-8 md:w-11 md:text-base"
                 onChange={(e) => {
                   let quantity;
                   if (e.target.value === "") {
@@ -152,7 +155,7 @@ export function CartItem({
                 id={`${id}-increment`}
                 variant="outline"
                 size="icon"
-                className="size-8 rounded-l-none"
+                className="size-7 rounded-l-none md:size-8"
                 onClick={() => {
                   const quantity = Math.min(localQty + 1, 99);
                   setLocalQty(quantity);
