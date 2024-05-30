@@ -80,7 +80,10 @@ export function SearchBox() {
                   defaultValue={department ? department : "All"}
                 >
                   <FormControl>
-                    <SelectTrigger className="h-9 w-10 truncate rounded-r-none p-2 sm:w-24 sm:px-3 sm:py-2 lg:w-32">
+                    <SelectTrigger
+                      className="h-9 w-10 truncate rounded-r-none p-2 sm:w-24 sm:px-3 sm:py-2 lg:w-32"
+                      collapseIcon={true}
+                    >
                       <span className="*:text-muted-foreground *:hidden *:truncate *:sm:block">
                         <SelectValue placeholder="Category" />
                       </span>
