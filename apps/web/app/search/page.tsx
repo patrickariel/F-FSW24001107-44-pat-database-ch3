@@ -341,7 +341,7 @@ function SearchResults({
   }
 
   return (
-    <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+    <div className="grid w-full gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
       {data.pages.map((page) =>
         page.products.map((product, i) => (
           <ProductCard key={i} product={product} />
