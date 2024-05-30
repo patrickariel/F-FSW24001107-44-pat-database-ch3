@@ -8,6 +8,7 @@ import { AspectRatio } from "@repo/ui/aspect-ratio";
 import { Button, ButtonProps } from "@repo/ui/button";
 import { Card, CardContent, CardHeader } from "@repo/ui/card";
 import { Image } from "@repo/ui/image";
+import { cn } from "@repo/ui/lib/utils";
 import { Skeleton } from "@repo/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@repo/ui/tooltip";
 import { useToast } from "@repo/ui/use-toast";
@@ -19,6 +20,7 @@ import { ReactNode, useState } from "react";
 export function CartButton({
   product: { cart, ...product },
   quantity = 1,
+  className,
   ...props
 }: ButtonProps & {
   product: RouterOutput["product"]["find"]["products"][number];
@@ -87,7 +89,10 @@ export function CartButton({
   return (
     <Wrap>
       <Button
-        className={`flex w-full flex-row gap-2 ${cartState ? "hover:bg-red-500" : ""}`}
+        className={cn(
+          `flex w-full flex-row gap-2 ${cartState ? "hover:bg-red-500" : ""}`,
+          className,
+        )}
         variant={disabledState ? "disabled" : "outline"}
         onClick={onClick}
         {...props}
