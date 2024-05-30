@@ -13,7 +13,7 @@ async function main(): Promise<void> {
       name: "John Smith",
       password: await bcrypt.hash("password", 10),
       image: faker.image.avatarGitHub(),
-      balance: _.random(1_000_000, 5_000_000),
+      balance: 8500,
     },
   });
 
@@ -23,7 +23,7 @@ async function main(): Promise<void> {
       name: faker.person.fullName(),
       password: await bcrypt.hash("password", 10),
       image: faker.image.avatarGitHub(),
-      balance: _.random(1_000_000, 5_000_000),
+      balance: _.random(2000, 9000),
     })),
   });
 
@@ -34,7 +34,7 @@ async function main(): Promise<void> {
         faker.image.urlPicsumPhotos({ width: 1200, height: 900 }),
       ),
       department: faker.commerce.department(),
-      price: parseFloat(faker.commerce.price()),
+      price: _.random(1, 35, true),
       stock: _.random(1, 32),
       description: faker.lorem.paragraphs(5),
       adjective: faker.commerce.productAdjective(),
