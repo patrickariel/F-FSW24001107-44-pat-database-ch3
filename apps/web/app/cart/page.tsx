@@ -57,7 +57,7 @@ export default function Cart() {
   }
 
   return (
-    <div className="container flex min-h-0 grow flex-col items-start justify-center gap-5 px-8 py-8 md:items-center md:px-16 lg:flex-row lg:gap-11">
+    <div className="container flex min-h-0 grow flex-col items-start justify-center gap-5 py-4 md:flex-row md:items-center lg:gap-11 lg:px-16 lg:py-8">
       <ScrollArea className="flex grow basis-10/12 flex-row self-stretch rounded-md border p-4 lg:m-0 lg:basis-8/12">
         <div className="flex flex-col">
           {cart.map((item, i) => (
@@ -81,9 +81,9 @@ export default function Cart() {
           ))}
         </div>
       </ScrollArea>
-      <div className="flex min-w-[300px] grow basis-2/12 flex-col justify-center space-y-3 self-center sm:min-w-[400px] md:pt-4 lg:basis-4/12 lg:space-y-6 lg:self-start">
+      <div className="flex min-w-[300px] grow basis-2/12 flex-col justify-center space-y-3 self-center pt-2 md:self-start lg:basis-4/12 lg:space-y-6 lg:pt-4">
         <div className="flex flex-col space-y-3 text-left lg:space-y-5">
-          <h1 className="flex flex-row items-center gap-3 text-xl font-semibold tracking-tight lg:text-2xl">
+          <h1 className="flex flex-row items-center gap-3 text-lg font-semibold tracking-tight lg:text-2xl">
             <ShoppingBasket size={25} />
             Order Details
           </h1>

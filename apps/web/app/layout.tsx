@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Navigation } from "@/components/navigation";
+import { Main } from "@/components/main";
 import {
   ClientSessionProvider,
   ClientTrpcProvider,
@@ -27,10 +27,7 @@ export default function RootLayout({
         <ClientTrpcProvider>
           <ClientSessionProvider>
             <TooltipProvider>
-              <div className="flex h-screen flex-col">
-                <Navigation />
-                {children}
-              </div>
+              <Main>{children}</Main>
               <Toaster />
             </TooltipProvider>
           </ClientSessionProvider>

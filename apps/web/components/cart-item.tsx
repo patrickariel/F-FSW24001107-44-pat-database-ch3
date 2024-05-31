@@ -107,7 +107,7 @@ export function CartItem({
               {description}
             </h2>
           </div>
-          <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-col items-start justify-between gap-3 min-[382px]:flex-row min-[382px]:items-center">
             <div className="flex flex-row items-center gap-1">
               <div className="lg:text-md text-accent-foreground line-clamp-1 flex items-center self-center p-0 pt-0 text-sm font-semibold">
                 {currency.format(price)}
