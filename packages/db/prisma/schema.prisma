@@ -18,6 +18,7 @@ model User {
   password   String
   cart       CartItem[]
   reviews    Review[]
+  products   Product[]
 }
 
 model Product {
@@ -32,6 +33,8 @@ model Product {
   stock       Int
   images      String[]
   description String
+  user        User       @relation(fields: [userId], references: [id])
+  userId      String     @db.Uuid
   cart        CartItem[]
   reviews     Review[]
 }

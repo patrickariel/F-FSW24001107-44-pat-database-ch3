@@ -55,6 +55,7 @@ async function main(): Promise<void> {
       adjective: faker.commerce.productAdjective(),
       shortName: faker.commerce.product(),
       material: faker.commerce.productMaterial(),
+      userId: _.sample(extraUsers)!.id, // eslint-disable-line @typescript-eslint/no-non-null-assertion -- We know that extraUsers is not empty
     })),
   });
 
