@@ -15,9 +15,10 @@ import { Image } from "@repo/ui/image";
 import { Input } from "@repo/ui/input";
 import { Skeleton } from "@repo/ui/skeleton";
 import _ from "lodash";
-import { Minus, Plus, Star } from "lucide-react";
+import { Minus, Plus, Star, StarHalf } from "lucide-react";
 import ErrorPage from "next/error";
 import { useEffect, useState } from "react";
+import { FaRegStarHalfStroke, FaRegStar, FaStar } from "react-icons/fa6";
 
 export default function Page({ params }: { params: { id: string } }) {
   const [qtyState, setQtyState] = useState(1);
@@ -27,6 +28,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
   const { data: product } = trpc.product.get.useQuery({
     id: uuidTranslator.toUUID(params.id),
+    reviewMeta: true,
   });
 
   useEffect(() => api?.scrollTo(selected), [selected]);
@@ -114,18 +116,34 @@ export default function Page({ params }: { params: { id: string } }) {
           <div className="flex flex-row items-center gap-3">
             {product ? (
               <div className="flex flex-row gap-1">
-                {_.range(0, 5).map((i) => (
-                  <Star
-                    key={i}
-                    className="h-4 w-4 fill-current md:h-5 md:w-5"
-                  />
-                ))}
+                {_.range(0, 5).map((i) => {
+                  const rounded =
+                    Math.round((product.reviews?.average ?? 0) / 0.5) * 0.5;
+                  return rounded >= i + 1 ? (
+                    <FaStar
+                      key={i}
+                      className="h-4 w-4 fill-current md:h-5 md:w-5"
+                    />
+                  ) : rounded === i + 0.5 ? (
+                    <FaRegStarHalfStroke
+                      key={i}
+                      className="h-4 w-4 fill-current stroke-current md:h-5 md:w-5"
+                    />
+                  ) : (
+                    <FaRegStar
+                      key={i}
+                      className="h-4 w-4 fill-current md:h-5 md:w-5"
+                    />
+                  );
+                })}
               </div>
             ) : (
               <Skeleton className="h-7 w-full basis-1/4 rounded-xl" />
             )}
             {product ? (
-              <p className="text-muted-foreground">(246 reviews)</p>
+              <p className="text-muted-foreground">
+                ({`${product.reviews?.total ?? 0}`} reviews)
+              </p>
             ) : (
               <Skeleton className="h-4 w-full basis-1/3 rounded-xl" />
             )}
