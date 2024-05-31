@@ -6,6 +6,17 @@ import _ from "lodash";
 
 const prisma = new PrismaClient();
 
+function randomWeighted(
+  strength: number,
+  min: number,
+  max: number,
+  toMax?: boolean,
+): number {
+  return (
+    Math.pow(Math.random(), toMax ? 1 / strength : strength) * (max - min) + min
+  );
+}
+
 async function main(): Promise<void> {
   await prisma.user.create({
     data: {
@@ -38,7 +49,7 @@ async function main(): Promise<void> {
         to: "2024-01-01T00:00:00.000Z",
       }),
       department: faker.commerce.department(),
-      price: _.random(1, 35, true),
+      price: _.random(0.1, 35, true),
       stock: _.random(1, 32),
       description: faker.lorem.paragraphs(5),
       adjective: faker.commerce.productAdjective(),
@@ -54,7 +65,7 @@ async function main(): Promise<void> {
           authorId: _.sample(extraUsers)!.id, // eslint-disable-line @typescript-eslint/no-non-null-assertion -- We know that extraUsers is not empty
           productId: product.id,
           review: faker.lorem.paragraphs(5),
-          rating: _.sample([3.0, 3.5, 4.0, 4.5, 5.0]),
+          rating: randomWeighted(3, 0.5, 5.0, true),
         })),
       ),
     ),
