@@ -1,31 +1,6 @@
 import { optUserProcedure, router, userProcedure } from "@repo/api/trpc";
 import { z } from "zod";
 
-export const departments = [
-  "Automotive",
-  "Baby",
-  "Beauty",
-  "Books",
-  "Clothing",
-  "Computers",
-  "Electronics",
-  "Games",
-  "Garden",
-  "Grocery",
-  "Health",
-  "Home",
-  "Industrial",
-  "Jewelry",
-  "Kids",
-  "Movies",
-  "Music",
-  "Outdoors",
-  "Shoes",
-  "Sports",
-  "Tools",
-  "Toys",
-] as const;
-
 export const product = router({
   get: optUserProcedure
     .input(
