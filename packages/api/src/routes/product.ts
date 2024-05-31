@@ -1,4 +1,4 @@
-import { optUserProcedure, router } from "@repo/api/trpc";
+import { optUserProcedure, router, userProcedure } from "@repo/api/trpc";
 import { z } from "zod";
 
 export const departments = [
@@ -55,6 +55,24 @@ export const product = router({
               : undefined,
           }
         : null;
+    }),
+  add: userProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        shortName: z.string(),
+        material: z.string(),
+        adjective: z.string(),
+        added: z.date(),
+        department: z.string(),
+        price: z.number(),
+        stock: z.number(),
+        images: z.tuple([z.string(), z.string(), z.string(), z.string()]),
+        description: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx: { db, user }, input: data }) => {
+      await db.product.create({ data: { ...data, userId: user.id } });
     }),
   find: optUserProcedure
     .input(
