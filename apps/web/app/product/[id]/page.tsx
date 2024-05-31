@@ -15,7 +15,7 @@ import { Image } from "@repo/ui/image";
 import { Input } from "@repo/ui/input";
 import { Skeleton } from "@repo/ui/skeleton";
 import _ from "lodash";
-import { Minus, Plus, Star, StarHalf } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import ErrorPage from "next/error";
 import { useEffect, useState } from "react";
 import { FaRegStarHalfStroke, FaRegStar, FaStar } from "react-icons/fa6";
@@ -62,7 +62,7 @@ export default function Page({ params }: { params: { id: string } }) {
                       src={product.images[i]!}
                       alt={product.name}
                       className="rounded-xl transition-all"
-                      sizes="(min-width: 1024px) 40vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
+                      sizes="(min-width: 768px) 50vw, 100vw"
                       width={600}
                       height={450}
                       loading="lazy"
@@ -91,7 +91,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     });
                   }}
                   className={`cursor-pointer rounded-xl transition-all ${loaded[i] && selected === i ? "outline outline-4 outline-offset-2 outline-sky-500" : ""}`}
-                  sizes="(min-width: 1024px) 30vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
+                  sizes="(min-width: 1024px) 8vw, (min-width: 768px) 15vw, 25vw"
                   width={140}
                   height={100}
                   loading="eager"

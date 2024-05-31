@@ -125,7 +125,7 @@ export function ProductCard({ product, ratio = 4 / 3 }: ProductCardProps) {
             src={product.images[0]!}
             alt={product.name}
             className="object-cover"
-            sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
+            sizes="(min-width: 1024px) 20vw, (min-width: 768px) 33vw, (min-width: 640px) 45vw, (min-width: 475px) 90vw, 100vw"
             fill
             loading="lazy"
           />

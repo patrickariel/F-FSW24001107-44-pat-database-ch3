@@ -83,7 +83,7 @@ export function CartItem({
               src={images[0]!}
               alt={name}
               className="rounded-md object-cover"
-              sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
+              sizes="(min-width: 1024px) 11vw, (min-width: 768px) 16vw, (min-width: 640px) 19vw, (min-width: 475px) 24vw, 35vw"
               fill
               loading="lazy"
             />
