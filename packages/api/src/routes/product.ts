@@ -28,13 +28,31 @@ export const departments = [
 
 export const product = router({
   get: optUserProcedure
-    .input(z.object({ id: z.string().uuid() }))
-    .query(async ({ input: { id }, ctx: { db, user } }) => {
+    .input(
+      z.object({
+        id: z.string().uuid(),
+        reviewMeta: z.boolean().default(false),
+      }),
+    )
+    .query(async ({ input: { id, reviewMeta }, ctx: { db, user } }) => {
       const product = await db.product.findUnique({ where: { id } });
       return product !== null
         ? {
-            cart: user?.cart.find(({ productId }) => productId === product.id),
             ...product,
+            cart: user?.cart.find(({ productId }) => productId === product.id),
+            reviews: reviewMeta
+              ? (
+                  await db.review.groupBy({
+                    by: ["productId"],
+                    where: { productId: product.id },
+                    _avg: { rating: true },
+                    _count: true,
+                  })
+                ).map((review) => ({
+                  average: review._avg.rating ?? 0,
+                  total: review._count,
+                }))[0]
+              : undefined,
           }
         : null;
     }),
@@ -52,6 +70,7 @@ export const product = router({
           maxPrice: z.number().nullish(),
           minRating: z.number().nullish(),
           maxRating: z.number().nullish(),
+          reviewMeta: z.boolean().default(false),
         })
         .transform(
           (
@@ -86,10 +105,11 @@ export const product = router({
           maxPrice,
           minRating,
           maxRating,
+          reviewMeta,
         },
         ctx: { db, user },
       }) => {
-        const products = (
+        const productPromises = (
           await db.product.findMany({
             where: {
               ...(department && department !== "All" && { department }),
@@ -134,10 +154,25 @@ export const product = router({
             ...(limit && { take: limit + 1 }),
             cursor: cursor ? { id: cursor } : undefined,
           })
-        ).map((product) => ({
+        ).map(async (product) => ({
           ...product,
           cart: user?.cart.find(({ productId }) => productId === product.id),
+          reviews: reviewMeta
+            ? (
+                await db.review.groupBy({
+                  by: ["productId"],
+                  where: { productId: product.id },
+                  _avg: { rating: true },
+                  _count: true,
+                })
+              ).map((review) => ({
+                average: review._avg.rating ?? 0,
+                total: review._count,
+              }))[0]
+            : undefined,
         }));
+
+        const products = await Promise.all(productPromises);
 
         let nextCursor: typeof cursor | undefined;
 
