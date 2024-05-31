@@ -106,16 +106,12 @@ export const product = router({
           await db.product.findMany({
             where: {
               ...(department && department !== "All" && { department }),
-              ...(query && {
-                name: { search: query },
-                description: { search: query },
-              }),
-              ...((minPrice || maxPrice) && {
-                price: {
-                  ...(minPrice && { gte: minPrice }),
-                  ...(maxPrice && { lte: maxPrice }),
-                },
-              }),
+              name: { search: query ?? undefined },
+              description: { search: query ?? undefined },
+              price: {
+                gte: minPrice ?? undefined,
+                lte: maxPrice ?? undefined,
+              },
               ...((minRating || maxRating) && {
                 id: {
                   in: (
@@ -144,7 +140,7 @@ export const product = router({
                     },
                   }
                 : { [sort === "relevance" ? "added" : sort]: order },
-            ...(limit && { take: limit + 1 }),
+            take: limit + 1,
             cursor: cursor ? { id: cursor } : undefined,
           })
         ).map(async (product) => ({
