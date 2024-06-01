@@ -14,6 +14,7 @@ import {
 import { Image } from "@bingle/ui/image";
 import { Input } from "@bingle/ui/input";
 import { Skeleton } from "@bingle/ui/skeleton";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@bingle/ui/tooltip";
 import _ from "lodash";
 import { Minus, Plus } from "lucide-react";
 import ErrorPage from "next/error";
@@ -115,28 +116,35 @@ export default function Page({ params }: { params: { id: string } }) {
           )}
           <div className="flex flex-row items-center gap-3">
             {product ? (
-              <div className="flex flex-row gap-1">
-                {_.range(0, 5).map((i) => {
-                  const rounded =
-                    Math.round((product.reviews?.average ?? 0) / 0.5) * 0.5;
-                  return rounded >= i + 1 ? (
-                    <FaStar
-                      key={i}
-                      className="h-4 w-4 fill-current md:h-5 md:w-5"
-                    />
-                  ) : rounded === i + 0.5 ? (
-                    <FaRegStarHalfStroke
-                      key={i}
-                      className="h-4 w-4 fill-current stroke-current md:h-5 md:w-5"
-                    />
-                  ) : (
-                    <FaRegStar
-                      key={i}
-                      className="h-4 w-4 fill-current md:h-5 md:w-5"
-                    />
-                  );
-                })}
-              </div>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex flex-row gap-1">
+                    {_.range(0, 5).map((i) => {
+                      const rounded =
+                        Math.round((product.reviews?.average ?? 0) / 0.5) * 0.5;
+                      return rounded >= i + 1 ? (
+                        <FaStar
+                          key={i}
+                          className="h-4 w-4 fill-current md:h-5 md:w-5"
+                        />
+                      ) : rounded === i + 0.5 ? (
+                        <FaRegStarHalfStroke
+                          key={i}
+                          className="h-4 w-4 fill-current stroke-current md:h-5 md:w-5"
+                        />
+                      ) : (
+                        <FaRegStar
+                          key={i}
+                          className="h-4 w-4 fill-current md:h-5 md:w-5"
+                        />
+                      );
+                    })}
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{(product.reviews?.average ?? 0).toFixed(1)} stars</p>
+                </TooltipContent>
+              </Tooltip>
             ) : (
               <Skeleton className="h-7 w-full basis-1/4 rounded-xl" />
             )}
@@ -188,7 +196,7 @@ export default function Page({ params }: { params: { id: string } }) {
               )}
             </article>
           </div>
-          <div className="flex flex-row items-center justify-start gap-8">
+          <div className="flex flex-col items-start justify-start gap-2 sm:flex-row sm:items-center sm:gap-8">
             {product ? (
               <h1 className="text-xl font-semibold md:text-3xl">
                 {currency.format(product.price)}
