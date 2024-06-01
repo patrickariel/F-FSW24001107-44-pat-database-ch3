@@ -2,7 +2,6 @@
 
 import { ProductCard } from "@/components/product";
 import { trpc } from "@/lib/trpc-client";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@bingle/ui/form";
 import {
   Select,
@@ -12,6 +11,7 @@ import {
   SelectValue,
 } from "@bingle/ui/select";
 import Spinner from "@bingle/ui/spinner";
+import { zodResolver } from "@hookform/resolvers/zod";
 import _ from "lodash";
 import { Frown } from "lucide-react";
 import {
@@ -36,21 +36,27 @@ const SearchSchema = z.object({
   maxRating: z.coerce.number().nullish(),
 });
 
+const Sort = z.enum([
+  "Relevance",
+  "Newest",
+  "Oldest",
+  "HighestPrice",
+  "LowestPrice",
+]);
+const Price = z.enum([
+  "Any",
+  "ZeroToOne",
+  "OneToThree",
+  "ThreeToTen",
+  "TenToTwenty",
+  "OverTwenty",
+]);
+const Rating = z.enum(["Any", "OverFour"]);
+
 const FilterSchema = z.object({
-  sort: z
-    .enum(["Relevance", "Newest", "Oldest", "HighestPrice", "LowestPrice"])
-    .default("Newest"),
-  price: z
-    .enum([
-      "Any",
-      "ZeroToOne",
-      "OneToThree",
-      "ThreeToTen",
-      "TenToTwenty",
-      "OverTwenty",
-    ])
-    .default("Any"),
-  rating: z.enum(["Any", "OverFour"]).default("Any"),
+  sort: Sort.default("Newest"),
+  price: Price.default("Any"),
+  rating: Rating.default("Any"),
 });
 
 function searchToFilter(search: z.input<typeof SearchSchema>) {
@@ -221,10 +227,6 @@ function FilterForm({
     return () => subscription.unsubscribe();
   }, [form.watch]);
 
-  const sort = FilterSchema.shape.sort._def.innerType;
-  const price = FilterSchema.shape.price._def.innerType;
-  const rating = FilterSchema.shape.rating._def.innerType;
-
   return (
     <Form {...form}>
       <form
@@ -243,15 +245,15 @@ function FilterForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value={sort.Values.Relevance}>
+                  <SelectItem value={Sort.Values.Relevance}>
                     Relevance
                   </SelectItem>
-                  <SelectItem value={sort.Values.Newest}>Newest</SelectItem>
-                  <SelectItem value={sort.Values.Oldest}>Oldest</SelectItem>
-                  <SelectItem value={sort.Values.LowestPrice}>
+                  <SelectItem value={Sort.Values.Newest}>Newest</SelectItem>
+                  <SelectItem value={Sort.Values.Oldest}>Oldest</SelectItem>
+                  <SelectItem value={Sort.Values.LowestPrice}>
                     Lowest price
                   </SelectItem>
-                  <SelectItem value={sort.Values.HighestPrice}>
+                  <SelectItem value={Sort.Values.HighestPrice}>
                     Highest price
                   </SelectItem>
                 </SelectContent>
@@ -271,20 +273,20 @@ function FilterForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value={price.Values.Any}>Any price</SelectItem>
-                  <SelectItem value={price.Values.ZeroToOne}>
+                  <SelectItem value={Price.Values.Any}>Any price</SelectItem>
+                  <SelectItem value={Price.Values.ZeroToOne}>
                     $0 to $1
                   </SelectItem>
-                  <SelectItem value={price.Values.OneToThree}>
+                  <SelectItem value={Price.Values.OneToThree}>
                     $1 to $3
                   </SelectItem>
-                  <SelectItem value={price.Values.ThreeToTen}>
+                  <SelectItem value={Price.Values.ThreeToTen}>
                     $3 to $10
                   </SelectItem>
-                  <SelectItem value={price.Values.TenToTwenty}>
+                  <SelectItem value={Price.Values.TenToTwenty}>
                     $10 to $20
                   </SelectItem>
-                  <SelectItem value={price.Values.OverTwenty}>
+                  <SelectItem value={Price.Values.OverTwenty}>
                     Over $20
                   </SelectItem>
                 </SelectContent>
@@ -304,8 +306,8 @@ function FilterForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value={rating.Values.Any}>Any rating</SelectItem>
-                  <SelectItem value={rating.Values.OverFour}>
+                  <SelectItem value={Rating.Values.Any}>Any rating</SelectItem>
+                  <SelectItem value={Rating.Values.OverFour}>
                     4 ⭐ and up
                   </SelectItem>
                 </SelectContent>
