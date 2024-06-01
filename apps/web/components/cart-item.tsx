@@ -97,9 +97,7 @@ export function CartItem({
               </div>
               <CircleX
                 size={19}
-                onClick={() =>
-                  !disabledState && removeFromCart.mutate([{ id }])
-                }
+                onClick={() => !disabledState && removeFromCart.mutate({ id })}
                 className="min-h-5 min-w-5 cursor-pointer stroke-zinc-500 hover:stroke-red-900"
               />
             </div>
@@ -126,7 +124,7 @@ export function CartItem({
                 onClick={() => {
                   const quantity = Math.max(localQty - 1, 1);
                   setLocalQty(quantity);
-                  updateCart.mutate([{ id, quantity }]);
+                  updateCart.mutate({ items: [{ id, quantity }] });
                 }}
                 className="size-7 rounded-r-none md:size-8"
               >
@@ -147,7 +145,7 @@ export function CartItem({
                   }
                   if (quantity) {
                     setLocalQty(quantity);
-                    updateCart.mutate([{ id, quantity }]);
+                    updateCart.mutate({ items: [{ id, quantity }] });
                   }
                 }}
               />
@@ -159,7 +157,7 @@ export function CartItem({
                 onClick={() => {
                   const quantity = Math.min(localQty + 1, 99);
                   setLocalQty(quantity);
-                  updateCart.mutate([{ id, quantity }]);
+                  updateCart.mutate({ items: [{ id, quantity }] });
                 }}
               >
                 <Plus size={15} />

@@ -1,13 +1,17 @@
 import { publicProcedure, router } from "@repo/api/trpc";
+import { ReviewSchema } from "@repo/db";
 import { z } from "zod";
 
 export const review = router({
   get: publicProcedure
+    .meta({ openapi: { method: "GET", path: "/review/get" } })
     .input(z.object({ id: z.string().uuid() }))
-    .query(({ ctx: { db }, input: { id } }) =>
+    .output(ReviewSchema.nullable())
+    .query(async ({ ctx: { db }, input: { id } }) =>
       db.review.findUnique({ where: { id } }),
     ),
   find: publicProcedure
+    .meta({ openapi: { method: "POST", path: "/review/find" } })
     .input(
       z.object({
         limit: z.number().min(1).max(100).default(25),
@@ -16,6 +20,12 @@ export const review = router({
         authorId: z.string().uuid().optional(),
         minRating: z.number().optional(),
         maxRating: z.number().optional(),
+      }),
+    )
+    .output(
+      z.object({
+        reviews: z.array(ReviewSchema),
+        nextCursor: z.string().nullish(),
       }),
     )
     .query(

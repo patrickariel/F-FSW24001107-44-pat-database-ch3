@@ -76,9 +76,9 @@ export function CartButton({
   const onClick = () => {
     if (session) {
       if (!cartState) {
-        addToCart.mutate([{ id: product.id, quantity }]);
+        addToCart.mutate({ items: [{ id: product.id, quantity }] });
       } else {
-        removeFromCart.mutate([{ id: product.id }]);
+        removeFromCart.mutate({ id: product.id });
       }
     }
   };

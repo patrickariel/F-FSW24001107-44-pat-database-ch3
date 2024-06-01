@@ -1,16 +1,26 @@
 import { optUserProcedure, router, userProcedure } from "@repo/api/trpc";
+import { CartItemSchema, ProductSchema } from "@repo/db";
 import { z } from "zod";
 
 export const product = router({
   get: optUserProcedure
-    .meta({ openapi: { method: "GET", path: "/product" } })
+    .meta({ openapi: { method: "GET", path: "/product/get" } })
     .input(
       z.object({
         id: z.string().uuid(),
         reviewMeta: z.boolean().default(false),
       }),
     )
-    .output(z.any())
+    .output(
+      ProductSchema.merge(
+        z.object({
+          cart: CartItemSchema.optional(),
+          reviews: z
+            .object({ average: z.number(), total: z.number() })
+            .optional(),
+        }),
+      ).nullable(),
+    )
     .query(async ({ input: { id, reviewMeta }, ctx: { db, user } }) => {
       const product = await db.product.findUnique({ where: { id } });
       return product !== null
@@ -34,6 +44,7 @@ export const product = router({
         : null;
     }),
   add: userProcedure
+    .meta({ openapi: { method: "POST", path: "/product/add" } })
     .input(
       z.object({
         name: z.string(),
@@ -48,10 +59,12 @@ export const product = router({
         description: z.string(),
       }),
     )
-    .mutation(async ({ ctx: { db, user }, input: data }) => {
-      await db.product.create({ data: { ...data, userId: user.id } });
-    }),
+    .output(ProductSchema)
+    .mutation(async ({ ctx: { db, user }, input: data }) =>
+      db.product.create({ data: { ...data, userId: user.id } }),
+    ),
   find: optUserProcedure
+    .meta({ openapi: { method: "POST", path: "/product/find" } })
     .input(
       z
         .object({
@@ -86,6 +99,21 @@ export const product = router({
             return transformed;
           },
         ),
+    )
+    .output(
+      z.object({
+        products: z.array(
+          ProductSchema.merge(
+            z.object({
+              cart: CartItemSchema.optional(),
+              reviews: z
+                .object({ average: z.number(), total: z.number() })
+                .optional(),
+            }),
+          ),
+        ),
+        nextCursor: z.string().nullish(),
+      }),
     )
     .query(
       async ({

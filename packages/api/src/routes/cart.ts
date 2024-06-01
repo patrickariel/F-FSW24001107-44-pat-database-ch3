@@ -1,53 +1,68 @@
 import { userProcedure, router } from "@repo/api/trpc";
+import { CartItemSchema, ProductSchema } from "@repo/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 export default router({
-  list: userProcedure.query(
-    async ({
-      ctx: {
-        user: { id: userId },
-        db,
-      },
-    }) =>
-      db.cartItem.findMany({
-        where: { userId },
-        include: { product: true },
-        orderBy: { added: "desc" },
-      }),
-  ),
-  get: userProcedure.input(z.object({ productId: z.string().uuid() })).query(
-    async ({
-      input: { productId },
-      ctx: {
-        user: { id: userId },
-        db,
-      },
-    }) =>
-      db.cartItem.findUnique({
-        where: {
-          userId_productId: {
-            productId,
-            userId,
-          },
+  list: userProcedure
+    .meta({ openapi: { method: "GET", path: "/cart/list", protect: true } })
+    .input(z.void())
+    .output(z.array(CartItemSchema.merge(z.object({ product: ProductSchema }))))
+    .query(
+      async ({
+        ctx: {
+          user: { id: userId },
+          db,
         },
-        include: { product: true },
-      }),
-  ),
+      }) =>
+        db.cartItem.findMany({
+          where: { userId },
+          include: { product: true },
+          orderBy: { added: "desc" },
+        }),
+    ),
+  get: userProcedure
+    .meta({ openapi: { method: "GET", path: "/cart/get", protect: true } })
+    .input(z.object({ productId: z.string().uuid() }))
+    .output(CartItemSchema.nullable())
+    .query(
+      async ({
+        input: { productId },
+        ctx: {
+          user: { id: userId },
+          db,
+        },
+      }) =>
+        db.cartItem.findUnique({
+          where: {
+            userId_productId: {
+              productId,
+              userId,
+            },
+          },
+          include: { product: true },
+        }),
+    ),
   update: userProcedure
+    .meta({ openapi: { method: "PATCH", path: "/cart/update", protect: true } })
     .input(
-      z.array(z.object({ id: z.string().uuid(), quantity: z.number().min(1) })),
+      z.object({
+        items: z.array(
+          z.object({ id: z.string().uuid(), quantity: z.number().min(1) }),
+        ),
+      }),
     )
+    .output(z.array(CartItemSchema))
     .mutation(
       async ({
-        input,
+        input: { items },
         ctx: {
           user: { id: userId },
           db,
         },
       }) =>
         Promise.all(
-          input.map(async ({ quantity, id: productId }) =>
+          items.map(async ({ quantity, id: productId }) =>
             db.cartItem.update({
               data: { quantity },
               where: { userId_productId: { userId, productId } },
@@ -56,28 +71,39 @@ export default router({
         ),
     ),
   remove: userProcedure
-    .input(z.array(z.object({ id: z.string().uuid() })))
+    .meta({
+      openapi: { method: "DELETE", path: "/cart/remove", protect: true },
+    })
+    .input(z.object({ id: z.string().uuid() }))
+    .output(z.void())
     .mutation(
-      ({
-        input: ids,
+      async ({
+        input: { id: productId },
         ctx: {
           user: { id: userId },
           db,
         },
-      }) =>
-        db.cartItem.deleteMany({
+      }) => {
+        await db.cartItem.deleteMany({
           where: {
             userId,
-            productId: { in: ids.map(({ id }) => id) },
+            productId,
           },
-        }),
+        });
+      },
     ),
   add: userProcedure
+    .meta({ openapi: { method: "POST", path: "/cart/add", protect: true } })
     .input(
-      z.array(z.object({ id: z.string().uuid(), quantity: z.number().min(1) })),
+      z.object({
+        items: z.array(
+          z.object({ id: z.string().uuid(), quantity: z.number().min(1) }),
+        ),
+      }),
     )
-    .mutation(async ({ input, ctx: { user, db } }) => {
-      const products = input.map(async ({ id, quantity }) => {
+    .output(z.array(z.object({ product: ProductSchema, quantity: z.number() })))
+    .mutation(async ({ input: { items }, ctx: { user, db } }) => {
+      const products = items.map(async ({ id, quantity }) => {
         const product = await db.product.findUnique({
           where: { id },
         });
