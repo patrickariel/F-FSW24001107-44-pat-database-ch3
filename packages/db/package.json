@@ -24,6 +24,8 @@
   },
   "dependencies": {
     "@prisma/client": "^5.14.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "zod": "^3.23.8",
+    "zod-prisma-types": "^3.1.8"
   }
 }

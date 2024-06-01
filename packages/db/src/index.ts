@@ -8,4 +8,12 @@ export type {
   PrismaClient,
   Prisma,
 } from "@prisma/client";
+
+export {
+  ProductSchema,
+  UserSchema,
+  CartItemSchema,
+  ReviewSchema,
+} from "../prisma/generated/zod";
+
 export const db = new PrismaClient();
