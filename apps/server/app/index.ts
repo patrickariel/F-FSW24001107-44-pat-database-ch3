@@ -1,5 +1,5 @@
-import { appRouter, openApiDocument } from "@repo/api";
-import { createContext } from "@repo/api/trpc";
+import { appRouter, openApiDocument } from "@bingle/api";
+import { createContext } from "@bingle/api/trpc";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import chalk from "chalk";
 import { config } from "dotenv";

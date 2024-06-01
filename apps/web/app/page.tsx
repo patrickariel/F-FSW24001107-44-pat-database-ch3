@@ -8,8 +8,8 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@repo/ui/carousel";
-import { ContentSection } from "@repo/ui/content-section";
+} from "@bingle/ui/carousel";
+import { ContentSection } from "@bingle/ui/content-section";
 import _ from "lodash";
 
 export default function Page() {

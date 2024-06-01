@@ -1,5 +1,5 @@
-import { publicProcedure, router } from "@repo/api/trpc";
-import { ReviewSchema } from "@repo/db";
+import { publicProcedure, router } from "@bingle/api/trpc";
+import { ReviewSchema } from "@bingle/db";
 import { z } from "zod";
 
 export const review = router({

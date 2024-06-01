@@ -47,7 +47,7 @@ const nextConfig = {
       },
     ],
   },
-  transpilePackages: ["@repo/ui"],
+  transpilePackages: ["@bingle/ui"],
 };
 
 export default nextConfig;

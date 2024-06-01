@@ -1,5 +1,5 @@
-import { optUserProcedure, router, userProcedure } from "@repo/api/trpc";
-import { CartItemSchema, ProductSchema } from "@repo/db";
+import { optUserProcedure, router, userProcedure } from "@bingle/api/trpc";
+import { CartItemSchema, ProductSchema } from "@bingle/db";
 import { z } from "zod";
 
 export const product = router({

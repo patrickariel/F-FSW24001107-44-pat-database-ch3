@@ -1,6 +1,6 @@
-import { Button } from "@repo/ui/button";
-import { cn } from "@repo/ui/lib/utils";
-import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "@repo/ui/sheet";
+import { Button } from "@bingle/ui/button";
+import { cn } from "@bingle/ui/lib/utils";
+import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "@bingle/ui/sheet";
 import { Menu, BookText, Shirt, Baby, Cable, HeartPulse } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

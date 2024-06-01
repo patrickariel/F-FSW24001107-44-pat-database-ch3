@@ -1,5 +1,5 @@
-import { userProcedure, router } from "@repo/api/trpc";
-import { CartItemSchema, ProductSchema } from "@repo/db";
+import { userProcedure, router } from "@bingle/api/trpc";
+import { CartItemSchema, ProductSchema } from "@bingle/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 

@@ -1,4 +1,4 @@
-import { cn } from "@repo/ui/lib/utils";
+import { cn } from "@bingle/ui/lib/utils";
 import { Loader2 } from "lucide-react";
 import React from "react";
 

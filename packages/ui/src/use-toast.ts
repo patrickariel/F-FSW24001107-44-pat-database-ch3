@@ -1,7 +1,7 @@
 "use client";
 
 // Inspired by react-hot-toast library
-import type { ToastActionElement, ToastProps } from "@repo/ui/toast";
+import type { ToastActionElement, ToastProps } from "@bingle/ui/toast";
 import * as React from "react";
 
 const TOAST_LIMIT = 1;

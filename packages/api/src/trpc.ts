@@ -1,5 +1,5 @@
 import { type JWT, getToken } from "@auth/core/jwt";
-import { type PrismaClient, db } from "@repo/db";
+import { type PrismaClient, db } from "@bingle/db";
 import { TRPCError, initTRPC } from "@trpc/server";
 import type * as trpcExpress from "@trpc/server/adapters/express";
 import superjson from "superjson";

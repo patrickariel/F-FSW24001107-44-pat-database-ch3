@@ -5,8 +5,8 @@ import { NavSheet } from "./nav-sheet";
 import { SearchBox } from "@/components/search-box";
 import { trpc } from "@/lib/trpc-client";
 import { currency } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@repo/ui/avatar";
-import { Button } from "@repo/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@bingle/ui/avatar";
+import { Button } from "@bingle/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,9 +14,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@repo/ui/dropdown-menu";
-import { cn } from "@repo/ui/lib/utils";
-import Spinner from "@repo/ui/spinner";
+} from "@bingle/ui/dropdown-menu";
+import { cn } from "@bingle/ui/lib/utils";
+import Spinner from "@bingle/ui/spinner";
 import { LogOut, ShoppingBag, ShoppingCart, User } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";

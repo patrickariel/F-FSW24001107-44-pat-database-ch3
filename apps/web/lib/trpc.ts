@@ -1,5 +1,5 @@
 import { getBaseUrl } from "./utils";
-import type { AppRouter } from "@repo/api";
+import type { AppRouter } from "@bingle/api";
 import { createTRPCClient, httpBatchLink } from "@trpc/client";
 import { cookies } from "next/headers";
 import superjson from "superjson";

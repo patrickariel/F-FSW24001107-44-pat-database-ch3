@@ -2,12 +2,12 @@
 
 import { trpc } from "@/lib/trpc-client";
 import { currency } from "@/lib/utils";
-import { RouterOutput } from "@repo/api";
-import { AspectRatio } from "@repo/ui/aspect-ratio";
-import { Button } from "@repo/ui/button";
-import { Input } from "@repo/ui/input";
-import { cn } from "@repo/ui/lib/utils";
-import { useToast } from "@repo/ui/use-toast";
+import { RouterOutput } from "@bingle/api";
+import { AspectRatio } from "@bingle/ui/aspect-ratio";
+import { Button } from "@bingle/ui/button";
+import { Input } from "@bingle/ui/input";
+import { cn } from "@bingle/ui/lib/utils";
+import { useToast } from "@bingle/ui/use-toast";
 import { CircleX } from "lucide-react";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";

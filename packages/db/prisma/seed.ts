@@ -20,7 +20,7 @@ function randomWeighted(
 async function main(): Promise<void> {
   await prisma.user.create({
     data: {
-      email: "john.smith@bling.com",
+      email: "john.smith@bingle.com",
       name: "John Smith",
       password: await bcrypt.hash("password", 10),
       image: faker.image.avatarGitHub(),

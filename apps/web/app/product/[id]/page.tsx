@@ -3,17 +3,17 @@
 import { CartButton } from "@/components/product";
 import { trpc } from "@/lib/trpc-client";
 import { currency, fixed, uuidTranslator } from "@/lib/utils";
-import { Button } from "@repo/ui/button";
-import { Card, CardContent } from "@repo/ui/card";
+import { Button } from "@bingle/ui/button";
+import { Card, CardContent } from "@bingle/ui/card";
 import {
   Carousel,
   CarouselApi,
   CarouselContent,
   CarouselItem,
-} from "@repo/ui/carousel";
-import { Image } from "@repo/ui/image";
-import { Input } from "@repo/ui/input";
-import { Skeleton } from "@repo/ui/skeleton";
+} from "@bingle/ui/carousel";
+import { Image } from "@bingle/ui/image";
+import { Input } from "@bingle/ui/input";
+import { Skeleton } from "@bingle/ui/skeleton";
 import _ from "lodash";
 import { Minus, Plus } from "lucide-react";
 import ErrorPage from "next/error";

@@ -1,5 +1,5 @@
-import { createCaller } from "@repo/api";
-import { db } from "@repo/db";
+import { createCaller } from "@bingle/api";
+import { db } from "@bingle/db";
 import { expect, test } from "vitest";
 
 test("get products", async () => {

@@ -1,4 +1,4 @@
-import { cn } from "@repo/ui/lib/utils";
+import { cn } from "@bingle/ui/lib/utils";
 import * as React from "react";
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;

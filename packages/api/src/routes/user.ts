@@ -1,5 +1,5 @@
-import { router, userProcedure } from "@repo/api/trpc";
-import { UserSchema } from "@repo/db";
+import { router, userProcedure } from "@bingle/api/trpc";
+import { UserSchema } from "@bingle/db";
 import _ from "lodash";
 import { z } from "zod";
 

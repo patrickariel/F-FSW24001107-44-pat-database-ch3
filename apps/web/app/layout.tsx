@@ -4,8 +4,8 @@ import {
   ClientSessionProvider,
   ClientTrpcProvider,
 } from "@/components/providers";
-import { Toaster } from "@repo/ui/toaster";
-import { TooltipProvider } from "@repo/ui/tooltip";
+import { Toaster } from "@bingle/ui/toaster";
+import { TooltipProvider } from "@bingle/ui/tooltip";
 import type { Metadata } from "next";
 import { Comfortaa } from "next/font/google";
 

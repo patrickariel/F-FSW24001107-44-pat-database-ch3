@@ -1,4 +1,4 @@
-import { db } from "@repo/db";
+import { db } from "@bingle/db";
 import bcrypt from "bcryptjs";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";

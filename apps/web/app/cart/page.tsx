@@ -3,10 +3,10 @@
 import { CartItem } from "@/components/cart-item";
 import { trpc } from "@/lib/trpc-client";
 import { currency } from "@/lib/utils";
-import { Button } from "@repo/ui/button";
-import { cn } from "@repo/ui/lib/utils";
-import { ScrollArea } from "@repo/ui/scroll-area";
-import { Separator } from "@repo/ui/separator";
+import { Button } from "@bingle/ui/button";
+import { cn } from "@bingle/ui/lib/utils";
+import { ScrollArea } from "@bingle/ui/scroll-area";
+import { Separator } from "@bingle/ui/separator";
 import { ShoppingBasket, ShoppingCart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";

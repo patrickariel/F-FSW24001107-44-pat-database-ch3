@@ -7,8 +7,8 @@ import {
   ToastProvider,
   ToastTitle,
   ToastViewport,
-} from "@repo/ui/toast";
-import { useToast } from "@repo/ui/use-toast";
+} from "@bingle/ui/toast";
+import { useToast } from "@bingle/ui/use-toast";
 
 export function Toaster() {
   const { toasts } = useToast();

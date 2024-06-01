@@ -1,6 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
-import { Button } from "@repo/ui/button";
-import { cn } from "@repo/ui/lib/utils";
+import { Button } from "@bingle/ui/button";
+import { cn } from "@bingle/ui/lib/utils";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";

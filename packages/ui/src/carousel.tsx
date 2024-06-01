@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@repo/ui/button";
-import { cn } from "@repo/ui/lib/utils";
+import { Button } from "@bingle/ui/button";
+import { cn } from "@bingle/ui/lib/utils";
 import Autoplay, { AutoplayOptionsType } from "embla-carousel-autoplay";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,

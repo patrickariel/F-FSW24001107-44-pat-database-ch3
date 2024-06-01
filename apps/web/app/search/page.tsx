@@ -3,15 +3,15 @@
 import { ProductCard } from "@/components/product";
 import { trpc } from "@/lib/trpc-client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem } from "@repo/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@bingle/ui/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@repo/ui/select";
-import Spinner from "@repo/ui/spinner";
+} from "@bingle/ui/select";
+import Spinner from "@bingle/ui/spinner";
 import _ from "lodash";
 import { Frown } from "lucide-react";
 import {
