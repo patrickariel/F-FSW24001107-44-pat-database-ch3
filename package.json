@@ -5,6 +5,7 @@
     "build": "turbo build",
     "start": "turbo start",
     "dev": "turbo dev",
+    "typecheck": "turbo typecheck",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{js,mjs,cjs,ts,tsx,css,json,md}\"",
     "postinstall": "patch-package"
