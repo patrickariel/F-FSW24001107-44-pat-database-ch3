@@ -8,7 +8,7 @@ This repository includes the following packages/apps:
 
 - `server`: an [Express](https://expressjs.com) server
 - `web`: a [Next.js](https://nextjs.org) app with [Auth.js](https://authjs.dev) for authentication
-- `@repo/db`: [PostgreSQL](https://www.postgresql.org) database client powered with [Prisma](https://www.prisma.io) 
+- `@repo/db`: [PostgreSQL](https://www.postgresql.org) database client powered with [Prisma](https://www.prisma.io)
 - `@repo/api`: API routes built with [tRPC](https://trpc.io) with an optional REST compatibility layer thanks to [trpc-openapi](https://github.com/jlalmes/trpc-openapi)
 - `@repo/ui`: a collection of React components filled mostly with [shadcn](https://ui.shadcn.com) components
 - `@repo/eslint-config`: `eslint` configurations
