@@ -14,6 +14,15 @@ const font = Comfortaa({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Bingle Shop",
   description: "Elevate your shopping experience",
+  icons: {
+    icon: [
+      { url: "/icon.svg" },
+      {
+        media: "(prefers-color-scheme: dark)",
+        url: "/icon-dark.svg",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
