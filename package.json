@@ -6,7 +6,8 @@
     "start": "turbo start",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{js,mjs,cjs,ts,tsx,css,json,md}\""
+    "format": "prettier --write \"**/*.{js,mjs,cjs,ts,tsx,css,json,md}\"",
+    "postinstall": "patch-package"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
@@ -14,7 +15,17 @@
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
-    "turbo": "latest"
+    "turbo": "latest",
+    "@trpc/server": "^11.0.0-rc.374"
+  },
+  "dependencies": {
+    "trpc-openapi": "^1.2.0",
+    "patch-package": "^8.0.0"
+  },
+  "overrides": {
+    "trpc-openapi": {
+      "@trpc/server": "$@trpc/server"
+    }
   },
   "engines": {
     "node": ">=18"

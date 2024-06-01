@@ -1,3 +1,5 @@
+const expressPort = process.env.EXPRESS_PORT || 4000;
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async redirects() {
@@ -11,10 +13,28 @@ const nextConfig = {
   },
   async rewrites() {
     return {
+      beforeFiles: [
+        {
+          source: "/api/docs",
+          destination: `http://localhost:${expressPort}/docs/`,
+        },
+        {
+          source: `/api/:path(.+\\.css$)`,
+          destination: `http://localhost:${expressPort}/docs/:path`,
+        },
+        {
+          source: `/api/:path(.+\\.js$)`,
+          destination: `http://localhost:${expressPort}/docs/:path`,
+        },
+        {
+          source: `/api/:path(.+\\.png$)`,
+          destination: `http://localhost:${expressPort}/docs/:path`,
+        },
+      ],
       fallback: [
         {
-          source: "/api/trpc/:path*",
-          destination: `http://localhost:${process.env.EXPRESS_PORT || 4000}/trpc/:path*`,
+          source: "/api/:path*",
+          destination: `http://localhost:${expressPort}/:path*`,
         },
       ],
     };

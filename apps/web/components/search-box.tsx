@@ -11,7 +11,6 @@ import {
 } from "@repo/ui/select";
 import { PackageSearch, Search } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 

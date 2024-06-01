@@ -3,12 +3,14 @@ import { z } from "zod";
 
 export const product = router({
   get: optUserProcedure
+    .meta({ openapi: { method: "GET", path: "/product" } })
     .input(
       z.object({
         id: z.string().uuid(),
         reviewMeta: z.boolean().default(false),
       }),
     )
+    .output(z.any())
     .query(async ({ input: { id, reviewMeta }, ctx: { db, user } }) => {
       const product = await db.product.findUnique({ where: { id } });
       return product !== null

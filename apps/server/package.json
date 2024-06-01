@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node dist/index.mjs",
-    "dev": "tsup --watch . --watch ../../packages/api --watch ../../packages/db --onSuccess \"node dist/index.mjs\"",
+    "dev": "tsup --watch . --watch ../../packages/api --watch ../../packages/db --onSuccess \"node dist/index.js\"",
     "build": "tsup app",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
@@ -13,13 +13,15 @@
   "dependencies": {
     "@repo/api": "^0.0.0",
     "@trpc/server": "^11.0.0-rc.374",
+    "chalk": "^5.3.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "chalk": "^5.3.0",
-    "figures": "^6.1.0"
+    "figures": "^6.1.0",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "@types/swagger-ui-express": "^4.1.6",
     "tsup": "^8.0.2"
   }
 }
