@@ -22,7 +22,14 @@ app.use(
   }),
 );
 
-app.use("/docs", serve, setup(openApiDocument));
+app.use(
+  "/docs",
+  serve,
+  setup(openApiDocument, {
+    customCssUrl:
+      "https://cdn.jsdelivr.net/gh/Amoenus/SwaggerDark@2064ccd/SwaggerDark.css",
+  }),
+);
 
 app.use(
   "/",
