@@ -89,23 +89,22 @@ export function CartItem({
             />
           </AspectRatio>
         </div>
-        <div className="flex w-full flex-col justify-start space-y-5 p-6">
+        <div className="flex w-full flex-col justify-start space-y-5 p-3 sm:p-6">
           <div className="flex flex-col space-y-2">
-            <div className="flex flex-row items-center justify-between space-x-2">
-              <div className="sm:text-md space-y-3 font-semibold leading-none tracking-tight lg:text-xl">
+            <div className="flex flex-row items-center justify-between gap-1 sm:gap-2">
+              <div className="sm:text-md font-semibold leading-none tracking-tight lg:text-xl">
                 {name}
               </div>
               <CircleX
-                size={19}
                 onClick={() => !disabledState && removeFromCart.mutate({ id })}
-                className="min-h-5 min-w-5 cursor-pointer stroke-zinc-500 hover:stroke-red-900"
+                className="size-4 flex-none cursor-pointer stroke-zinc-500 hover:stroke-red-900 sm:size-5"
               />
             </div>
             <h2 className="text-muted-foreground line-clamp-1 max-w-[90%] text-xs lg:text-sm">
               {description}
             </h2>
           </div>
-          <div className="flex flex-col items-start justify-between gap-3 min-[382px]:flex-row min-[382px]:items-center">
+          <div className="flex flex-col items-start justify-between gap-1 min-[382px]:flex-row min-[382px]:items-center sm:gap-3">
             <div className="flex flex-row items-center gap-1">
               <div className="lg:text-md text-accent-foreground line-clamp-1 flex items-center self-center p-0 pt-0 text-sm font-semibold">
                 {currency.format(price)}

@@ -57,24 +57,16 @@ export default function Cart() {
   }
 
   return (
-    <div className="container flex min-h-0 grow flex-col items-start justify-center gap-5 py-4 md:flex-row md:items-center lg:gap-11 lg:px-16 lg:py-8">
+    <div className="flex min-h-0 grow flex-col items-start justify-center gap-5 px-4 py-4 sm:container md:flex-row md:items-center lg:gap-11 lg:px-16 lg:py-8">
       <ScrollArea className="flex grow basis-10/12 flex-row self-stretch rounded-md border p-4 lg:m-0 lg:basis-8/12">
         <div className="flex flex-col">
-          {cart.map((item, i) => (
+          {cart.map((item) => (
             <>
               <CartItem
                 key={item.productId}
                 onRemove={() => refetch()}
                 item={item}
-                className={
-                  cart.length === 1
-                    ? "py-0"
-                    : i === 0
-                      ? "pt-0"
-                      : i === cart.length - 1
-                        ? "pb-0"
-                        : ""
-                }
+                className="py-3"
               />
               <Separator />
             </>
