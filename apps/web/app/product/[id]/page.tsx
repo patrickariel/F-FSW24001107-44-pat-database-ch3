@@ -173,24 +173,31 @@ export default function Page({ params }: { params: { id: string } }) {
             </article>
             <article className="flex flex-row gap-2">
               {product ? (
-                <p className="text-muted-foreground">Type:</p>
+                <p className="text-muted-foreground">Manufacturer:</p>
               ) : (
                 <Skeleton className="h-5 w-full basis-1/12 rounded-xl" />
               )}
               {product ? (
-                <p>{product.adjective}</p>
+                <p>{product.manufacturer}</p>
               ) : (
                 <Skeleton className="h-5 w-full basis-1/3 rounded-xl" />
               )}
             </article>
             <article className="flex flex-row gap-2">
               {product ? (
-                <p className="text-muted-foreground">Material:</p>
+                <p className="text-muted-foreground">Weight:</p>
               ) : (
                 <Skeleton className="h-5 w-full basis-1/5 rounded-xl" />
               )}
               {product ? (
-                <p>{product.material}</p>
+                <p>
+                  {new Intl.NumberFormat("en-US", {
+                    style: "unit",
+                    unit: "gram",
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 2,
+                  }).format(product.weight)}
+                </p>
               ) : (
                 <Skeleton className="h-5 w-full basis-1/4 rounded-xl" />
               )}

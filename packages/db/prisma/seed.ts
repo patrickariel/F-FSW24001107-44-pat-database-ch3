@@ -52,9 +52,8 @@ async function main(): Promise<void> {
       price: _.random(0.1, 35, true),
       stock: _.random(1, 32),
       description: faker.lorem.paragraphs(5),
-      adjective: faker.commerce.productAdjective(),
-      shortName: faker.commerce.product(),
-      material: faker.commerce.productMaterial(),
+      weight: _.random(1, 1000, true),
+      manufacturer: faker.company.name(),
       userId: _.sample(extraUsers)!.id, // eslint-disable-line @typescript-eslint/no-non-null-assertion -- We know that extraUsers is not empty
     })),
   });

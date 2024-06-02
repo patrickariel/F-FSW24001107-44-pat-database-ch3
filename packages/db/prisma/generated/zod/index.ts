@@ -29,9 +29,8 @@ export const UserScalarFieldEnumSchema = z.enum([
 export const ProductScalarFieldEnumSchema = z.enum([
   "id",
   "name",
-  "shortName",
-  "material",
-  "adjective",
+  "manufacturer",
+  "weight",
   "added",
   "department",
   "price",
@@ -71,9 +70,7 @@ export const UserOrderByRelevanceFieldEnumSchema = z.enum([
 export const ProductOrderByRelevanceFieldEnumSchema = z.enum([
   "id",
   "name",
-  "shortName",
-  "material",
-  "adjective",
+  "manufacturer",
   "department",
   "images",
   "description",
@@ -118,9 +115,8 @@ export type User = z.infer<typeof UserSchema>;
 export const ProductSchema = z.object({
   id: z.string(),
   name: z.string(),
-  shortName: z.string(),
-  material: z.string(),
-  adjective: z.string(),
+  manufacturer: z.string(),
+  weight: z.number(),
   added: z.coerce.date(),
   department: z.string(),
   price: z.number(),
@@ -274,9 +270,8 @@ export const ProductSelectSchema: z.ZodType<Prisma.ProductSelect> = z
   .object({
     id: z.boolean().optional(),
     name: z.boolean().optional(),
-    shortName: z.boolean().optional(),
-    material: z.boolean().optional(),
-    adjective: z.boolean().optional(),
+    manufacturer: z.boolean().optional(),
+    weight: z.boolean().optional(),
     added: z.boolean().optional(),
     department: z.boolean().optional(),
     price: z.boolean().optional(),
@@ -557,15 +552,10 @@ export const ProductWhereInputSchema: z.ZodType<Prisma.ProductWhereInput> = z
       .optional(),
     id: z.union([z.lazy(() => UuidFilterSchema), z.string()]).optional(),
     name: z.union([z.lazy(() => StringFilterSchema), z.string()]).optional(),
-    shortName: z
+    manufacturer: z
       .union([z.lazy(() => StringFilterSchema), z.string()])
       .optional(),
-    material: z
-      .union([z.lazy(() => StringFilterSchema), z.string()])
-      .optional(),
-    adjective: z
-      .union([z.lazy(() => StringFilterSchema), z.string()])
-      .optional(),
+    weight: z.union([z.lazy(() => FloatFilterSchema), z.number()]).optional(),
     added: z
       .union([z.lazy(() => DateTimeFilterSchema), z.coerce.date()])
       .optional(),
@@ -595,9 +585,8 @@ export const ProductOrderByWithRelationAndSearchRelevanceInputSchema: z.ZodType<
     .object({
       id: z.lazy(() => SortOrderSchema).optional(),
       name: z.lazy(() => SortOrderSchema).optional(),
-      shortName: z.lazy(() => SortOrderSchema).optional(),
-      material: z.lazy(() => SortOrderSchema).optional(),
-      adjective: z.lazy(() => SortOrderSchema).optional(),
+      manufacturer: z.lazy(() => SortOrderSchema).optional(),
+      weight: z.lazy(() => SortOrderSchema).optional(),
       added: z.lazy(() => SortOrderSchema).optional(),
       department: z.lazy(() => SortOrderSchema).optional(),
       price: z.lazy(() => SortOrderSchema).optional(),
@@ -646,14 +635,11 @@ export const ProductWhereUniqueInputSchema: z.ZodType<Prisma.ProductWhereUniqueI
           name: z
             .union([z.lazy(() => StringFilterSchema), z.string()])
             .optional(),
-          shortName: z
+          manufacturer: z
             .union([z.lazy(() => StringFilterSchema), z.string()])
             .optional(),
-          material: z
-            .union([z.lazy(() => StringFilterSchema), z.string()])
-            .optional(),
-          adjective: z
-            .union([z.lazy(() => StringFilterSchema), z.string()])
+          weight: z
+            .union([z.lazy(() => FloatFilterSchema), z.number()])
             .optional(),
           added: z
             .union([z.lazy(() => DateTimeFilterSchema), z.coerce.date()])
@@ -691,9 +677,8 @@ export const ProductOrderByWithAggregationInputSchema: z.ZodType<Prisma.ProductO
     .object({
       id: z.lazy(() => SortOrderSchema).optional(),
       name: z.lazy(() => SortOrderSchema).optional(),
-      shortName: z.lazy(() => SortOrderSchema).optional(),
-      material: z.lazy(() => SortOrderSchema).optional(),
-      adjective: z.lazy(() => SortOrderSchema).optional(),
+      manufacturer: z.lazy(() => SortOrderSchema).optional(),
+      weight: z.lazy(() => SortOrderSchema).optional(),
       added: z.lazy(() => SortOrderSchema).optional(),
       department: z.lazy(() => SortOrderSchema).optional(),
       price: z.lazy(() => SortOrderSchema).optional(),
@@ -734,14 +719,11 @@ export const ProductScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Produ
       name: z
         .union([z.lazy(() => StringWithAggregatesFilterSchema), z.string()])
         .optional(),
-      shortName: z
+      manufacturer: z
         .union([z.lazy(() => StringWithAggregatesFilterSchema), z.string()])
         .optional(),
-      material: z
-        .union([z.lazy(() => StringWithAggregatesFilterSchema), z.string()])
-        .optional(),
-      adjective: z
-        .union([z.lazy(() => StringWithAggregatesFilterSchema), z.string()])
+      weight: z
+        .union([z.lazy(() => FloatWithAggregatesFilterSchema), z.number()])
         .optional(),
       added: z
         .union([
@@ -1346,9 +1328,8 @@ export const ProductCreateInputSchema: z.ZodType<Prisma.ProductCreateInput> = z
   .object({
     id: z.string().optional(),
     name: z.string(),
-    shortName: z.string(),
-    material: z.string(),
-    adjective: z.string(),
+    manufacturer: z.string(),
+    weight: z.number(),
     added: z.coerce.date().optional(),
     department: z.string(),
     price: z.number(),
@@ -1372,9 +1353,8 @@ export const ProductUncheckedCreateInputSchema: z.ZodType<Prisma.ProductUnchecke
     .object({
       id: z.string().optional(),
       name: z.string(),
-      shortName: z.string(),
-      material: z.string(),
-      adjective: z.string(),
+      manufacturer: z.string(),
+      weight: z.number(),
       added: z.coerce.date().optional(),
       department: z.string(),
       price: z.number(),
@@ -1404,14 +1384,11 @@ export const ProductUpdateInputSchema: z.ZodType<Prisma.ProductUpdateInput> = z
     name: z
       .union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputSchema)])
       .optional(),
-    shortName: z
+    manufacturer: z
       .union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputSchema)])
       .optional(),
-    material: z
-      .union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputSchema)])
-      .optional(),
-    adjective: z
-      .union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputSchema)])
+    weight: z
+      .union([z.number(), z.lazy(() => FloatFieldUpdateOperationsInputSchema)])
       .optional(),
     added: z
       .union([
@@ -1464,22 +1441,16 @@ export const ProductUncheckedUpdateInputSchema: z.ZodType<Prisma.ProductUnchecke
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      shortName: z
+      manufacturer: z
         .union([
           z.string(),
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      material: z
+      weight: z
         .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
-        ])
-        .optional(),
-      adjective: z
-        .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
+          z.number(),
+          z.lazy(() => FloatFieldUpdateOperationsInputSchema),
         ])
         .optional(),
       added: z
@@ -1538,9 +1509,8 @@ export const ProductCreateManyInputSchema: z.ZodType<Prisma.ProductCreateManyInp
     .object({
       id: z.string().optional(),
       name: z.string(),
-      shortName: z.string(),
-      material: z.string(),
-      adjective: z.string(),
+      manufacturer: z.string(),
+      weight: z.number(),
       added: z.coerce.date().optional(),
       department: z.string(),
       price: z.number(),
@@ -1571,22 +1541,16 @@ export const ProductUpdateManyMutationInputSchema: z.ZodType<Prisma.ProductUpdat
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      shortName: z
+      manufacturer: z
         .union([
           z.string(),
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      material: z
+      weight: z
         .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
-        ])
-        .optional(),
-      adjective: z
-        .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
+          z.number(),
+          z.lazy(() => FloatFieldUpdateOperationsInputSchema),
         ])
         .optional(),
       added: z
@@ -1643,22 +1607,16 @@ export const ProductUncheckedUpdateManyInputSchema: z.ZodType<Prisma.ProductUnch
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      shortName: z
+      manufacturer: z
         .union([
           z.string(),
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      material: z
+      weight: z
         .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
-        ])
-        .optional(),
-      adjective: z
-        .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
+          z.number(),
+          z.lazy(() => FloatFieldUpdateOperationsInputSchema),
         ])
         .optional(),
       added: z
@@ -2306,9 +2264,8 @@ export const ProductCountOrderByAggregateInputSchema: z.ZodType<Prisma.ProductCo
     .object({
       id: z.lazy(() => SortOrderSchema).optional(),
       name: z.lazy(() => SortOrderSchema).optional(),
-      shortName: z.lazy(() => SortOrderSchema).optional(),
-      material: z.lazy(() => SortOrderSchema).optional(),
-      adjective: z.lazy(() => SortOrderSchema).optional(),
+      manufacturer: z.lazy(() => SortOrderSchema).optional(),
+      weight: z.lazy(() => SortOrderSchema).optional(),
       added: z.lazy(() => SortOrderSchema).optional(),
       department: z.lazy(() => SortOrderSchema).optional(),
       price: z.lazy(() => SortOrderSchema).optional(),
@@ -2322,6 +2279,7 @@ export const ProductCountOrderByAggregateInputSchema: z.ZodType<Prisma.ProductCo
 export const ProductAvgOrderByAggregateInputSchema: z.ZodType<Prisma.ProductAvgOrderByAggregateInput> =
   z
     .object({
+      weight: z.lazy(() => SortOrderSchema).optional(),
       price: z.lazy(() => SortOrderSchema).optional(),
       stock: z.lazy(() => SortOrderSchema).optional(),
     })
@@ -2332,9 +2290,8 @@ export const ProductMaxOrderByAggregateInputSchema: z.ZodType<Prisma.ProductMaxO
     .object({
       id: z.lazy(() => SortOrderSchema).optional(),
       name: z.lazy(() => SortOrderSchema).optional(),
-      shortName: z.lazy(() => SortOrderSchema).optional(),
-      material: z.lazy(() => SortOrderSchema).optional(),
-      adjective: z.lazy(() => SortOrderSchema).optional(),
+      manufacturer: z.lazy(() => SortOrderSchema).optional(),
+      weight: z.lazy(() => SortOrderSchema).optional(),
       added: z.lazy(() => SortOrderSchema).optional(),
       department: z.lazy(() => SortOrderSchema).optional(),
       price: z.lazy(() => SortOrderSchema).optional(),
@@ -2349,9 +2306,8 @@ export const ProductMinOrderByAggregateInputSchema: z.ZodType<Prisma.ProductMinO
     .object({
       id: z.lazy(() => SortOrderSchema).optional(),
       name: z.lazy(() => SortOrderSchema).optional(),
-      shortName: z.lazy(() => SortOrderSchema).optional(),
-      material: z.lazy(() => SortOrderSchema).optional(),
-      adjective: z.lazy(() => SortOrderSchema).optional(),
+      manufacturer: z.lazy(() => SortOrderSchema).optional(),
+      weight: z.lazy(() => SortOrderSchema).optional(),
       added: z.lazy(() => SortOrderSchema).optional(),
       department: z.lazy(() => SortOrderSchema).optional(),
       price: z.lazy(() => SortOrderSchema).optional(),
@@ -2364,6 +2320,7 @@ export const ProductMinOrderByAggregateInputSchema: z.ZodType<Prisma.ProductMinO
 export const ProductSumOrderByAggregateInputSchema: z.ZodType<Prisma.ProductSumOrderByAggregateInput> =
   z
     .object({
+      weight: z.lazy(() => SortOrderSchema).optional(),
       price: z.lazy(() => SortOrderSchema).optional(),
       stock: z.lazy(() => SortOrderSchema).optional(),
     })
@@ -4125,9 +4082,8 @@ export const ProductCreateWithoutUserInputSchema: z.ZodType<Prisma.ProductCreate
     .object({
       id: z.string().optional(),
       name: z.string(),
-      shortName: z.string(),
-      material: z.string(),
-      adjective: z.string(),
+      manufacturer: z.string(),
+      weight: z.number(),
       added: z.coerce.date().optional(),
       department: z.string(),
       price: z.number(),
@@ -4153,9 +4109,8 @@ export const ProductUncheckedCreateWithoutUserInputSchema: z.ZodType<Prisma.Prod
     .object({
       id: z.string().optional(),
       name: z.string(),
-      shortName: z.string(),
-      material: z.string(),
-      adjective: z.string(),
+      manufacturer: z.string(),
+      weight: z.number(),
       added: z.coerce.date().optional(),
       department: z.string(),
       price: z.number(),
@@ -4393,15 +4348,10 @@ export const ProductScalarWhereInputSchema: z.ZodType<Prisma.ProductScalarWhereI
         .optional(),
       id: z.union([z.lazy(() => UuidFilterSchema), z.string()]).optional(),
       name: z.union([z.lazy(() => StringFilterSchema), z.string()]).optional(),
-      shortName: z
+      manufacturer: z
         .union([z.lazy(() => StringFilterSchema), z.string()])
         .optional(),
-      material: z
-        .union([z.lazy(() => StringFilterSchema), z.string()])
-        .optional(),
-      adjective: z
-        .union([z.lazy(() => StringFilterSchema), z.string()])
-        .optional(),
+      weight: z.union([z.lazy(() => FloatFilterSchema), z.number()]).optional(),
       added: z
         .union([z.lazy(() => DateTimeFilterSchema), z.coerce.date()])
         .optional(),
@@ -4811,9 +4761,8 @@ export const ProductCreateWithoutReviewsInputSchema: z.ZodType<Prisma.ProductCre
     .object({
       id: z.string().optional(),
       name: z.string(),
-      shortName: z.string(),
-      material: z.string(),
-      adjective: z.string(),
+      manufacturer: z.string(),
+      weight: z.number(),
       added: z.coerce.date().optional(),
       department: z.string(),
       price: z.number(),
@@ -4837,9 +4786,8 @@ export const ProductUncheckedCreateWithoutReviewsInputSchema: z.ZodType<Prisma.P
     .object({
       id: z.string().optional(),
       name: z.string(),
-      shortName: z.string(),
-      material: z.string(),
-      adjective: z.string(),
+      manufacturer: z.string(),
+      weight: z.number(),
       added: z.coerce.date().optional(),
       department: z.string(),
       price: z.number(),
@@ -5044,22 +4992,16 @@ export const ProductUpdateWithoutReviewsInputSchema: z.ZodType<Prisma.ProductUpd
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      shortName: z
+      manufacturer: z
         .union([
           z.string(),
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      material: z
+      weight: z
         .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
-        ])
-        .optional(),
-      adjective: z
-        .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
+          z.number(),
+          z.lazy(() => FloatFieldUpdateOperationsInputSchema),
         ])
         .optional(),
       added: z
@@ -5122,22 +5064,16 @@ export const ProductUncheckedUpdateWithoutReviewsInputSchema: z.ZodType<Prisma.P
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      shortName: z
+      manufacturer: z
         .union([
           z.string(),
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      material: z
+      weight: z
         .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
-        ])
-        .optional(),
-      adjective: z
-        .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
+          z.number(),
+          z.lazy(() => FloatFieldUpdateOperationsInputSchema),
         ])
         .optional(),
       added: z
@@ -5193,9 +5129,8 @@ export const ProductCreateWithoutCartInputSchema: z.ZodType<Prisma.ProductCreate
     .object({
       id: z.string().optional(),
       name: z.string(),
-      shortName: z.string(),
-      material: z.string(),
-      adjective: z.string(),
+      manufacturer: z.string(),
+      weight: z.number(),
       added: z.coerce.date().optional(),
       department: z.string(),
       price: z.number(),
@@ -5219,9 +5154,8 @@ export const ProductUncheckedCreateWithoutCartInputSchema: z.ZodType<Prisma.Prod
     .object({
       id: z.string().optional(),
       name: z.string(),
-      shortName: z.string(),
-      material: z.string(),
-      adjective: z.string(),
+      manufacturer: z.string(),
+      weight: z.number(),
       added: z.coerce.date().optional(),
       department: z.string(),
       price: z.number(),
@@ -5341,22 +5275,16 @@ export const ProductUpdateWithoutCartInputSchema: z.ZodType<Prisma.ProductUpdate
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      shortName: z
+      manufacturer: z
         .union([
           z.string(),
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      material: z
+      weight: z
         .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
-        ])
-        .optional(),
-      adjective: z
-        .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
+          z.number(),
+          z.lazy(() => FloatFieldUpdateOperationsInputSchema),
         ])
         .optional(),
       added: z
@@ -5419,22 +5347,16 @@ export const ProductUncheckedUpdateWithoutCartInputSchema: z.ZodType<Prisma.Prod
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      shortName: z
+      manufacturer: z
         .union([
           z.string(),
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      material: z
+      weight: z
         .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
-        ])
-        .optional(),
-      adjective: z
-        .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
+          z.number(),
+          z.lazy(() => FloatFieldUpdateOperationsInputSchema),
         ])
         .optional(),
       added: z
@@ -5643,9 +5565,8 @@ export const ProductCreateManyUserInputSchema: z.ZodType<Prisma.ProductCreateMan
     .object({
       id: z.string().optional(),
       name: z.string(),
-      shortName: z.string(),
-      material: z.string(),
-      adjective: z.string(),
+      manufacturer: z.string(),
+      weight: z.number(),
       added: z.coerce.date().optional(),
       department: z.string(),
       price: z.number(),
@@ -5831,22 +5752,16 @@ export const ProductUpdateWithoutUserInputSchema: z.ZodType<Prisma.ProductUpdate
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      shortName: z
+      manufacturer: z
         .union([
           z.string(),
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      material: z
+      weight: z
         .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
-        ])
-        .optional(),
-      adjective: z
-        .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
+          z.number(),
+          z.lazy(() => FloatFieldUpdateOperationsInputSchema),
         ])
         .optional(),
       added: z
@@ -5909,22 +5824,16 @@ export const ProductUncheckedUpdateWithoutUserInputSchema: z.ZodType<Prisma.Prod
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      shortName: z
+      manufacturer: z
         .union([
           z.string(),
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      material: z
+      weight: z
         .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
-        ])
-        .optional(),
-      adjective: z
-        .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
+          z.number(),
+          z.lazy(() => FloatFieldUpdateOperationsInputSchema),
         ])
         .optional(),
       added: z
@@ -5987,22 +5896,16 @@ export const ProductUncheckedUpdateManyWithoutUserInputSchema: z.ZodType<Prisma.
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      shortName: z
+      manufacturer: z
         .union([
           z.string(),
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      material: z
+      weight: z
         .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
-        ])
-        .optional(),
-      adjective: z
-        .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputSchema),
+          z.number(),
+          z.lazy(() => FloatFieldUpdateOperationsInputSchema),
         ])
         .optional(),
       added: z

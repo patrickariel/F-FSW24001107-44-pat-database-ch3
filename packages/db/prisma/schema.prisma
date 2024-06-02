@@ -26,21 +26,20 @@ model User {
 }
 
 model Product {
-  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String
-  shortName   String
-  material    String
-  adjective   String
-  added       DateTime   @default(now())
-  department  String
-  price       Float      @db.DoublePrecision
-  stock       Int
-  images      String[]
-  description String
-  user        User       @relation(fields: [userId], references: [id])
-  userId      String     @db.Uuid
-  cart        CartItem[]
-  reviews     Review[]
+  id           String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String
+  manufacturer String
+  weight       Float      @db.DoublePrecision
+  added        DateTime   @default(now())
+  department   String
+  price        Float      @db.DoublePrecision
+  stock        Int
+  images       String[]
+  description  String
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String     @db.Uuid
+  cart         CartItem[]
+  reviews      Review[]
 }
 
 model Review {

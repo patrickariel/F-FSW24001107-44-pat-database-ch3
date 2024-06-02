@@ -48,9 +48,8 @@ export const product = router({
     .input(
       z.object({
         name: z.string(),
-        shortName: z.string(),
-        material: z.string(),
-        adjective: z.string(),
+        weight: z.number().min(0.1),
+        manufacturer: z.string(),
         added: z.date(),
         department: z.string(),
         price: z.number(),
