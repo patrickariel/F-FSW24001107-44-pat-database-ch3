@@ -54,14 +54,14 @@ const Price = z.enum([
 const Rating = z.enum(["Any", "OverFour"]);
 
 const FilterSchema = z.object({
-  sort: Sort.default("Newest"),
+  sort: Sort.default("Relevance"),
   price: Price.default("Any"),
   rating: Rating.default("Any"),
 });
 
 function searchToFilter(search: z.input<typeof SearchSchema>) {
   const filter: Partial<z.infer<typeof FilterSchema>> = {
-    sort: "Newest",
+    sort: "Relevance",
     price: "Any",
     rating: "Any",
   };
