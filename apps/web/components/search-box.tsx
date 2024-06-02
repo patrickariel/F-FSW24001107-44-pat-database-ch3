@@ -1,4 +1,3 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@bingle/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@bingle/ui/form";
 import { Input } from "@bingle/ui/input";
@@ -9,20 +8,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@bingle/ui/select";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { PackageSearch, Search } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export function SearchBox() {
-  const { push } = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const query = pathname === "/search" ? searchParams.get("query") : null;
-  const department =
-    pathname === "/search" ? searchParams.get("department") : null;
-
-  const departments = [
+const Department = z.enum(
+  [
     "All",
     "Baby",
     "Beauty",
@@ -31,19 +24,32 @@ export function SearchBox() {
     "Computers",
     "Electronics",
     "Games",
-  ] as const;
+  ],
+  { message: "Invalid department" },
+);
+
+export function SearchBox() {
+  const { push } = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const query = pathname === "/search" ? searchParams.get("query") : null;
+  const department =
+    pathname === "/search"
+      ? Department.safeParse(searchParams.get("department")).data
+      : undefined;
 
   const FormSchema = z.object({
     query: z.string().min(1, {
       message: "A keyword query is required",
     }),
-    department: z
-      .enum(departments, { message: "Invalid department" })
-      .default("All"),
+    department: Department,
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      department: department ? department : "All",
+    },
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -69,7 +75,7 @@ export function SearchBox() {
               <FormItem>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={department ? department : "All"}
+                  defaultValue={field.value}
                 >
                   <FormControl>
                     <SelectTrigger
@@ -83,7 +89,7 @@ export function SearchBox() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {departments.map((department, i) => (
+                    {Object.values(Department.Values).map((department, i) => (
                       <SelectItem key={i} value={department}>
                         {department}
                       </SelectItem>
