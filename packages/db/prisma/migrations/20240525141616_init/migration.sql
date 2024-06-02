@@ -2,7 +2,7 @@
 CREATE TABLE "User" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "email" TEXT NOT NULL,
-    "balance" DOUBLE PRECISION NOT NULL,
+    "balance" DOUBLE PRECISION NOT NULL CHECK ("balance" >= 0),
     "registered" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "image" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -20,8 +20,8 @@ CREATE TABLE "Product" (
     "adjective" TEXT NOT NULL,
     "added" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "department" TEXT NOT NULL,
-    "price" DOUBLE PRECISION NOT NULL,
-    "stock" INTEGER NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL CHECK ("price" > 0),
+    "stock" INTEGER NOT NULL CHECK ("stock" >= 0),
     "images" TEXT[],
     "description" TEXT NOT NULL,
 
@@ -32,7 +32,7 @@ CREATE TABLE "Product" (
 CREATE TABLE "Review" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "review" TEXT NOT NULL,
-    "rating" DOUBLE PRECISION NOT NULL,
+    "rating" DOUBLE PRECISION NOT NULL CHECK ("rating" >= 0),
     "authorId" UUID NOT NULL,
     "productId" UUID NOT NULL,
 
@@ -44,7 +44,7 @@ CREATE TABLE "CartItem" (
     "productId" UUID NOT NULL,
     "userId" UUID NOT NULL,
     "added" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "quantity" INTEGER NOT NULL,
+    "quantity" INTEGER NOT NULL CHECK ("quantity" > 0),
 
     CONSTRAINT "CartItem_pkey" PRIMARY KEY ("userId","productId")
 );
