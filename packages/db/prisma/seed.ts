@@ -41,7 +41,7 @@ async function main(): Promise<void> {
   const products = await prisma.product.createManyAndReturn({
     data: _.range(0, 2500).map(() => ({
       name: faker.commerce.productName(),
-      images: _.range(0, 5).map(() =>
+      images: _.range(0, 4).map(() =>
         faker.image.urlPicsumPhotos({ width: 1200, height: 900 }),
       ),
       added: faker.date.between({

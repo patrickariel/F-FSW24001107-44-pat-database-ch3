@@ -22,7 +22,7 @@ CREATE TABLE "Product" (
     "department" TEXT NOT NULL,
     "price" DOUBLE PRECISION NOT NULL CHECK ("price" > 0),
     "stock" INTEGER NOT NULL CHECK ("stock" >= 0),
-    "images" TEXT[],
+    "images" TEXT[] CHECK (cardinality("images") > 0),
     "description" TEXT NOT NULL,
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
