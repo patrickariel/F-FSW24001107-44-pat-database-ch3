@@ -50,15 +50,18 @@ export const product = router({
         name: z.string(),
         weight: z.number().min(0.1),
         manufacturer: z.string(),
-        added: z.date(),
         department: z.string(),
         price: z.number(),
         stock: z.number(),
-        images: z.tuple([z.string(), z.string(), z.string(), z.string()]),
+        images: z.array(z.string().url()).min(1),
         description: z.string(),
       }),
     )
-    .output(ProductSchema)
+    .output(
+      ProductSchema.merge(
+        z.object({ images: z.array(z.string().url()).min(1) }),
+      ),
+    )
     .mutation(async ({ ctx: { db, user }, input: data }) =>
       db.product.create({ data: { ...data, userId: user.id } }),
     ),

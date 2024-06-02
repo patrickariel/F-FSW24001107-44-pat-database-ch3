@@ -56,53 +56,59 @@ export default function Page({ params }: { params: { id: string } }) {
         <div className="flex w-full max-w-[600px] flex-col items-center gap-5 sm:gap-10">
           <Carousel setApi={setApi} className="w-full">
             <CarouselContent>
-              {_.range(0, 4).map((i) => (
-                <CarouselItem key={i}>
-                  {product ? (
-                    <Image
-                      src={product.images[i]!}
-                      alt={product.name}
-                      className="rounded-xl transition-all"
-                      sizes="(min-width: 768px) 50vw, 100vw"
-                      width={600}
-                      height={450}
-                      loading="lazy"
-                    />
-                  ) : (
-                    <Card className="border-none">
-                      <CardContent className="bg-muted flex aspect-[4/3] animate-pulse items-center justify-center rounded-xl p-6" />
-                    </Card>
-                  )}
-                </CarouselItem>
-              ))}
+              {product
+                ? [product.images[0]!, ...product.images.slice(1, 4)].map(
+                    (image, i) => (
+                      <CarouselItem key={i}>
+                        <Image
+                          src={image}
+                          alt={product.name}
+                          className="rounded-xl transition-all"
+                          sizes="(min-width: 768px) 50vw, 100vw"
+                          width={600}
+                          height={450}
+                          loading="lazy"
+                        />
+                      </CarouselItem>
+                    ),
+                  )
+                : _.range(0, 4).map((i) => (
+                    <CarouselItem key={i}>
+                      <Card className="border-none">
+                        <CardContent className="bg-muted flex aspect-[4/3] animate-pulse items-center justify-center rounded-xl p-6" />
+                      </Card>
+                    </CarouselItem>
+                  ))}
             </CarouselContent>
           </Carousel>
           <div className="grid w-full max-w-[600px] grid-cols-4 gap-4">
-            {_.range(0, 4).map((i) =>
-              product ? (
-                <Image
-                  key={i}
-                  src={product.images[i]!}
-                  alt={`${product.name} ${i}`}
-                  onClick={() => setSelected(i)}
-                  onLoadingComplete={() => {
-                    setLoaded((value) => {
-                      value[i] = true;
-                      return [...value];
-                    });
-                  }}
-                  className={`cursor-pointer rounded-xl transition-all ${loaded[i] && selected === i ? "outline outline-4 outline-offset-2 outline-sky-500" : ""}`}
-                  sizes="(min-width: 1024px) 8vw, (min-width: 768px) 15vw, 25vw"
-                  width={140}
-                  height={100}
-                  loading="eager"
-                />
-              ) : (
-                <Card className="w-full max-w-[140px] border-none">
-                  <CardContent className="bg-muted flex aspect-[4/3] animate-pulse items-center justify-center rounded-xl p-6" />
-                </Card>
-              ),
-            )}
+            {product
+              ? [product.images[0]!, ...product.images.slice(1, 4)].map(
+                  (image, i) => (
+                    <Image
+                      key={i}
+                      src={image}
+                      alt={`${image} ${i}`}
+                      onClick={() => setSelected(i)}
+                      onLoadingComplete={() => {
+                        setLoaded((value) => {
+                          value[i] = true;
+                          return [...value];
+                        });
+                      }}
+                      className={`cursor-pointer rounded-xl transition-all ${loaded[i] && selected === i ? "outline outline-4 outline-offset-2 outline-sky-500" : ""}`}
+                      sizes="(min-width: 1024px) 8vw, (min-width: 768px) 15vw, 25vw"
+                      width={140}
+                      height={100}
+                      loading="eager"
+                    />
+                  ),
+                )
+              : _.range(0, 4).map((i) => (
+                  <Card key={i} className="w-full max-w-[140px] border-none">
+                    <CardContent className="bg-muted flex aspect-[4/3] animate-pulse items-center justify-center rounded-xl p-6" />
+                  </Card>
+                ))}
           </div>
         </div>
 
