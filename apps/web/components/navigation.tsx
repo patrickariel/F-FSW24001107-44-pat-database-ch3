@@ -17,11 +17,11 @@ import {
 } from "@bingle/ui/dropdown-menu";
 import { cn } from "@bingle/ui/lib/utils";
 import Spinner from "@bingle/ui/spinner";
-import { LogOut, ShoppingBag, ShoppingCart, User } from "lucide-react";
+import { LogOut, ShoppingBag, ShoppingCart, User, Upload } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Suspense } from "react";
 
 function NavLink({ href, ...props }: Parameters<typeof Link>[0]) {
@@ -44,6 +44,7 @@ export function Navigation({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const { data: session, status } = useSession();
+  const { push } = useRouter();
 
   const { data: user, isLoading } = trpc.user.get.useQuery(undefined, {
     enabled: session ? true : false,
@@ -127,9 +128,19 @@ export function Navigation({
                       <User size={17} />
                       <h2>Profile</h2>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="flex cursor-pointer flex-row gap-2">
+                    <DropdownMenuItem
+                      className="flex cursor-pointer flex-row gap-2"
+                      onClick={() => push("/cart")}
+                    >
                       <ShoppingCart size={17} />
                       <h2>Cart</h2>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      className="flex cursor-pointer flex-row gap-2"
+                      onClick={() => push("/sell")}
+                    >
+                      <Upload size={17} />
+                      <h2>Sell</h2>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
