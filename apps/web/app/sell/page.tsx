@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@bingle/ui/select";
+import Spinner from "@bingle/ui/spinner";
 import { Textarea } from "@bingle/ui/textarea";
 import { toast } from "@bingle/ui/use-toast";
 import { Button } from "@bling/ui/button";
@@ -33,15 +34,23 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export default function Page() {
-  const { data: session } = useSession();
+  const { status } = useSession();
   const { push } = useRouter();
   const [disabled, setDisabled] = useState(false);
-
-  if (!session) {
-    redirect("/");
-  }
-
   const [extra, setExtra] = useState(0);
+
+  const addProduct = trpc.product.add.useMutation({
+    onMutate: () => setDisabled(true),
+    onSuccess: ({ id }) => push(`/product/${uuidTranslator.fromUUID(id)}`),
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: `Failed to create a new product entry`,
+      });
+      setDisabled(false);
+    },
+  });
 
   const formSchema = z.object({
     name: z.string().min(8, {
@@ -71,22 +80,19 @@ export default function Page() {
     imageFour: z.string().url().optional(),
   });
 
-  const addProduct = trpc.product.add.useMutation({
-    onMutate: () => setDisabled(true),
-    onSuccess: ({ id }) => push(`/product/${uuidTranslator.fromUUID(id)}`),
-    onError: () => {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: `Failed to create a new product entry`,
-      });
-      setDisabled(false);
-    },
-  });
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
+
+  if (status === "loading") {
+    return (
+      <div className="flex flex-1 items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  } else if (status === "unauthenticated") {
+    redirect("/");
+  }
 
   function onSubmit(data: z.infer<typeof formSchema>) {
     addProduct.mutate({

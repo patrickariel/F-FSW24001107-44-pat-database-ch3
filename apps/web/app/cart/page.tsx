@@ -7,6 +7,7 @@ import { Button } from "@bingle/ui/button";
 import { cn } from "@bingle/ui/lib/utils";
 import { ScrollArea } from "@bingle/ui/scroll-area";
 import { Separator } from "@bingle/ui/separator";
+import Spinner from "@bingle/ui/spinner";
 import { ShoppingBasket, ShoppingCart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
@@ -29,13 +30,17 @@ function CartDetails({
 }
 
 export default function Cart() {
-  const { data: session } = useSession();
-  if (!session) {
-    redirect("/");
-  }
+  const { status } = useSession();
   const { data: cart, refetch } = trpc.cart.list.useQuery();
-  if (!cart) {
-    return;
+
+  if (!cart || status === "loading") {
+    return (
+      <div className="flex flex-1 items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  } else if (status === "unauthenticated") {
+    redirect("/");
   }
 
   const itemTotal = cart
