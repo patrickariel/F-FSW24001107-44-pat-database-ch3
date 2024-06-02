@@ -4,7 +4,7 @@ import { z } from "zod";
 
 export const product = router({
   get: optUserProcedure
-    .meta({ openapi: { method: "GET", path: "/product/get" } })
+    .meta({ openapi: { method: "GET", path: "/product/get/{id}" } })
     .input(
       z.object({
         id: z.string().uuid(),

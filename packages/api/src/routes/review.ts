@@ -4,7 +4,7 @@ import { z } from "zod";
 
 export const review = router({
   get: publicProcedure
-    .meta({ openapi: { method: "GET", path: "/review/get" } })
+    .meta({ openapi: { method: "GET", path: "/review/get/{id}" } })
     .input(z.object({ id: z.string().uuid() }))
     .output(ReviewSchema.nullable())
     .query(async ({ ctx: { db }, input: { id } }) =>

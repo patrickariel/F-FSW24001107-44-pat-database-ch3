@@ -22,12 +22,14 @@ export default router({
         }),
     ),
   get: userProcedure
-    .meta({ openapi: { method: "GET", path: "/cart/get", protect: true } })
-    .input(z.object({ productId: z.string().uuid() }))
+    .meta({
+      openapi: { method: "GET", path: "/cart/get/{id}", protect: true },
+    })
+    .input(z.object({ id: z.string().uuid() }))
     .output(CartItemSchema.nullable())
     .query(
       async ({
-        input: { productId },
+        input: { id: productId },
         ctx: {
           user: { id: userId },
           db,
@@ -72,7 +74,7 @@ export default router({
     ),
   remove: userProcedure
     .meta({
-      openapi: { method: "DELETE", path: "/cart/remove", protect: true },
+      openapi: { method: "DELETE", path: "/cart/remove/{id}", protect: true },
     })
     .input(z.object({ id: z.string().uuid() }))
     .output(z.void())
