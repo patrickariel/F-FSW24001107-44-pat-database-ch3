@@ -11,6 +11,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PackageSearch, Search } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -52,14 +53,17 @@ export function SearchBox() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    const params = new URLSearchParams(searchParams.toString());
-    for (const [name, value] of Object.entries(data)) {
-      params.delete(name);
-      params.set(name, value);
-    }
-    push(`/search?${params.toString()}`);
-  }
+  const onSubmit = useCallback(
+    (data: z.infer<typeof FormSchema>) => {
+      const params = new URLSearchParams(searchParams.toString());
+      for (const [name, value] of Object.entries(data)) {
+        params.delete(name);
+        params.set(name, value);
+      }
+      push(`/search?${params.toString()}`);
+    },
+    [searchParams],
+  );
 
   return (
     <Form {...form}>

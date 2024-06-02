@@ -20,7 +20,7 @@ import {
   useRouter,
   useSearchParams,
 } from "next/navigation";
-import { Suspense, useEffect } from "react";
+import { Suspense, useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
 import { z } from "zod";
@@ -207,32 +207,32 @@ function FilterForm({
   const pathname = usePathname();
   const { push } = useRouter();
 
-  async function onSubmit(data: z.infer<typeof FilterSchema>) {
-    const search = filterToSearch(data);
-    const params = new URLSearchParams(searchParams.toString());
-    for (const [name, value] of Object.entries(search)) {
-      if (!(value === null || value == undefined)) {
-        params.set(_.kebabCase(name), value.toString());
-      } else if (value === null) {
-        params.delete(_.kebabCase(name));
+  const handleSubmit = useCallback(
+    form.handleSubmit((data: z.infer<typeof FilterSchema>) => {
+      const search = filterToSearch(data);
+      const params = new URLSearchParams(searchParams.toString());
+      for (const [name, value] of Object.entries(search)) {
+        if (!(value === null || value == undefined)) {
+          params.set(_.kebabCase(name), value.toString());
+        } else if (value === null) {
+          params.delete(_.kebabCase(name));
+        }
       }
-    }
-    push(`${pathname}?${params.toString()}`);
-  }
+      push(`${pathname}?${params.toString()}`);
+    }),
+    [pathname, form, searchParams],
+  );
 
   useEffect(() => {
     const subscription = form.watch(() => {
-      form.handleSubmit(onSubmit)();
+      handleSubmit();
     });
     return () => subscription.unsubscribe();
-  }, [form.watch]);
+  }, [handleSubmit, form.watch]);
 
   return (
     <Form {...form}>
-      <form
-        className="flex w-full flex-row justify-center gap-3 sm:justify-end sm:gap-7"
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
+      <form className="flex w-full flex-row justify-center gap-3 sm:justify-end sm:gap-7">
         <FormField
           control={form.control}
           name="sort"
@@ -355,7 +355,7 @@ function SearchResults({
 
 function Search() {
   const searchParams = useSearchParams();
-  const search = SearchSchema.parse({
+  const search = SearchSchema.safeParse({
     query: searchParams.get("query"),
     department: searchParams.get("department"),
     sort: searchParams.get("sort"),
@@ -364,14 +364,14 @@ function Search() {
     maxPrice: searchParams.get("max-price"),
     minRating: searchParams.get("min-rating"),
     maxRating: searchParams.get("max-rating"),
-  });
+  }).data;
 
   const { ref, inView } = useInView({
     threshold: 1,
     rootMargin: "0px 0px -70px 0px",
   });
 
-  if (search.query === null) {
+  if (!search || search.query === null) {
     redirect("/");
   }
 
@@ -392,9 +392,6 @@ function Search() {
       fetchNextPage();
     }
   }, [data, inView, isFetchingNextPage, fetchNextPage]);
-
-  console.log(data);
-  console.log(data?.pages.length);
 
   return (
     <div className="container flex flex-1 flex-grow flex-col items-center justify-start gap-5 py-5 xl:px-28">
