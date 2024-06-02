@@ -29,6 +29,13 @@ const Department = z.enum(
   { message: "Invalid department" },
 );
 
+const FormSchema = z.object({
+  query: z.string().min(1, {
+    message: "A keyword query is required",
+  }),
+  department: Department,
+});
+
 export function SearchBox() {
   const { push } = useRouter();
   const pathname = usePathname();
@@ -38,13 +45,6 @@ export function SearchBox() {
     pathname === "/search"
       ? Department.safeParse(searchParams.get("department")).data
       : undefined;
-
-  const FormSchema = z.object({
-    query: z.string().min(1, {
-      message: "A keyword query is required",
-    }),
-    department: Department,
-  });
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),

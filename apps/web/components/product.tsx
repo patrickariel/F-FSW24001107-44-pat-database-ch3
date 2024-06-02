@@ -15,7 +15,7 @@ import { useToast } from "@bingle/ui/use-toast";
 import { ShoppingCart, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { ReactNode, useState } from "react";
+import { ReactNode, useCallback, useState } from "react";
 
 export function CartButton({
   product: { cart, ...product },
@@ -73,7 +73,7 @@ export function CartButton({
     },
   });
 
-  const onClick = () => {
+  const onClick = useCallback(() => {
     if (session) {
       if (!cartState) {
         addToCart.mutate({ items: [{ id: product.id, quantity }] });
@@ -81,7 +81,7 @@ export function CartButton({
         removeFromCart.mutate({ id: product.id });
       }
     }
-  };
+  }, [session, cartState, product, quantity, addToCart, removeFromCart]);
 
   const Wrap = ({ children }: { children: ReactNode }) =>
     session ? children : <LoginDialog trigger={children} />;

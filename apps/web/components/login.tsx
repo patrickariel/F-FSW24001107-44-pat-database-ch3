@@ -1,6 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@bingle/ui/button";
 import {
   Dialog,
@@ -19,10 +18,28 @@ import {
   FormMessage,
 } from "@bingle/ui/form";
 import { Input } from "@bingle/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { ReactNode } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+const FormSchema = z.object({
+  email: z
+    .string()
+    .min(1, {
+      message: "An e-mail is required.",
+    })
+    .email({ message: "Not a valid e-mail address." }),
+  password: z
+    .string()
+    .min(1, {
+      message: "A password is required.",
+    })
+    .min(8, {
+      message: "Must be 8 characters or more.",
+    }),
+});
 
 export function LoginDialog({
   trigger,
@@ -31,25 +48,8 @@ export function LoginDialog({
   trigger: ReactNode;
   redirectTo?: string;
 }) {
-  const formSchema = z.object({
-    email: z
-      .string()
-      .min(1, {
-        message: "An e-mail is required.",
-      })
-      .email({ message: "Not a valid e-mail address." }),
-    password: z
-      .string()
-      .min(1, {
-        message: "A password is required.",
-      })
-      .min(8, {
-        message: "Must be 8 characters or more.",
-      }),
-  });
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
   });
 
   return (

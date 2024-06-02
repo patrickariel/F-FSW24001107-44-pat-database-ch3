@@ -33,6 +33,34 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+const FormSchema = z.object({
+  name: z.string().min(8, {
+    message: "Product name must be at least 8 characters.",
+  }),
+  manufacturer: z.string().min(8, {
+    message: "Manufacturer name must be at least 8 characters.",
+  }),
+  department: z.enum([
+    "Baby",
+    "Beauty",
+    "Books",
+    "Clothing",
+    "Computers",
+    "Electronics",
+    "Games",
+  ]),
+  price: z.number(),
+  stock: z.number(),
+  weight: z.number(),
+  description: z.string().min(25, {
+    message: "Description must be at least 25 characters",
+  }),
+  imageOne: z.string().url(),
+  imageTwo: z.string().url().optional(),
+  imageThree: z.string().url().optional(),
+  imageFour: z.string().url().optional(),
+});
+
 export default function Page() {
   const { status } = useSession();
   const { push } = useRouter();
@@ -52,36 +80,8 @@ export default function Page() {
     },
   });
 
-  const formSchema = z.object({
-    name: z.string().min(8, {
-      message: "Product name must be at least 8 characters.",
-    }),
-    manufacturer: z.string().min(8, {
-      message: "Manufacturer name must be at least 8 characters.",
-    }),
-    department: z.enum([
-      "Baby",
-      "Beauty",
-      "Books",
-      "Clothing",
-      "Computers",
-      "Electronics",
-      "Games",
-    ]),
-    price: z.number(),
-    stock: z.number(),
-    weight: z.number(),
-    description: z.string().min(25, {
-      message: "Description must be at least 25 characters",
-    }),
-    imageOne: z.string().url(),
-    imageTwo: z.string().url().optional(),
-    imageThree: z.string().url().optional(),
-    imageFour: z.string().url().optional(),
-  });
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
   });
 
   if (status === "loading") {
@@ -94,7 +94,7 @@ export default function Page() {
     redirect("/");
   }
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  function onSubmit(data: z.infer<typeof FormSchema>) {
     addProduct.mutate({
       ..._.omit(data, "imageOne", "imageTwo", "imageThree", "imageFour"),
       images: [
@@ -171,7 +171,7 @@ export default function Page() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {Object.values(formSchema.shape.department.Enum).map(
+                    {Object.values(FormSchema.shape.department.Enum).map(
                       (department) => (
                         <SelectItem value={department}>{department}</SelectItem>
                       ),
