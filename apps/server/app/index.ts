@@ -27,7 +27,7 @@ app.use(
   serve,
   setup(openApiDocument, {
     customCssUrl:
-      "https://cdn.jsdelivr.net/gh/Amoenus/SwaggerDark@2064ccd/SwaggerDark.css",
+      "https://cdn.jsdelivr.net/gh/ravisankarchinnam/openapi-swagger-dark-theme@26ad321/dark-theme.css",
   }),
 );
 
