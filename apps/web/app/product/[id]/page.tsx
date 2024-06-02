@@ -3,6 +3,7 @@
 import { CartButton } from "@/components/product";
 import { trpc } from "@/lib/trpc-client";
 import { currency, fixed, uuidTranslator } from "@/lib/utils";
+import { AspectRatio } from "@bingle/ui/aspect-ratio";
 import { Button } from "@bingle/ui/button";
 import { Card, CardContent } from "@bingle/ui/card";
 import {
@@ -60,15 +61,16 @@ export default function Page({ params }: { params: { id: string } }) {
                 ? [product.images[0]!, ...product.images.slice(1, 4)].map(
                     (image, i) => (
                       <CarouselItem key={i}>
-                        <Image
-                          src={image}
-                          alt={product.name}
-                          className="rounded-xl transition-all"
-                          sizes="(min-width: 768px) 50vw, 100vw"
-                          width={600}
-                          height={450}
-                          loading="lazy"
-                        />
+                        <AspectRatio ratio={4 / 3}>
+                          <Image
+                            src={image}
+                            alt={product.name}
+                            className="rounded-xl transition-all"
+                            sizes="(min-width: 768px) 50vw, 100vw"
+                            fill
+                            loading="lazy"
+                          />
+                        </AspectRatio>
                       </CarouselItem>
                     ),
                   )
@@ -85,23 +87,24 @@ export default function Page({ params }: { params: { id: string } }) {
             {product
               ? [product.images[0]!, ...product.images.slice(1, 4)].map(
                   (image, i) => (
-                    <Image
-                      key={i}
-                      src={image}
-                      alt={`${image} ${i}`}
-                      onClick={() => setSelected(i)}
-                      onLoadingComplete={() => {
-                        setLoaded((value) => {
-                          value[i] = true;
-                          return [...value];
-                        });
-                      }}
-                      className={`cursor-pointer rounded-xl transition-all ${loaded[i] && selected === i ? "outline outline-4 outline-offset-2 outline-sky-500" : ""}`}
-                      sizes="(min-width: 1024px) 8vw, (min-width: 768px) 15vw, 25vw"
-                      width={140}
-                      height={100}
-                      loading="eager"
-                    />
+                    <AspectRatio ratio={4 / 3}>
+                      <Image
+                        key={i}
+                        src={image}
+                        alt={`${image} ${i}`}
+                        onClick={() => setSelected(i)}
+                        onLoadingComplete={() => {
+                          setLoaded((value) => {
+                            value[i] = true;
+                            return [...value];
+                          });
+                        }}
+                        className={`cursor-pointer rounded-xl transition-all ${loaded[i] && selected === i ? "outline outline-4 outline-offset-2 outline-sky-500" : ""}`}
+                        sizes="(min-width: 1024px) 8vw, (min-width: 768px) 15vw, 25vw"
+                        fill
+                        loading="eager"
+                      />
+                    </AspectRatio>
                   ),
                 )
               : _.range(0, 4).map((i) => (
