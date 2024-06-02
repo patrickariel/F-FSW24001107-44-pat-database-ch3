@@ -13,25 +13,11 @@ const nextConfig = {
   },
   async rewrites() {
     return {
-      beforeFiles: [
+      fallback: [
         {
           source: "/api/docs",
           destination: `http://localhost:${expressPort}/docs/`,
         },
-        {
-          source: `/api/:path(.+\\.css$)`,
-          destination: `http://localhost:${expressPort}/docs/:path`,
-        },
-        {
-          source: `/api/:path(.+\\.js$)`,
-          destination: `http://localhost:${expressPort}/docs/:path`,
-        },
-        {
-          source: `/api/:path(.+\\.png$)`,
-          destination: `http://localhost:${expressPort}/docs/:path`,
-        },
-      ],
-      fallback: [
         {
           source: "/api/:path*",
           destination: `http://localhost:${expressPort}/:path*`,

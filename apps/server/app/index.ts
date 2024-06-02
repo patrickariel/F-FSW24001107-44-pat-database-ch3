@@ -4,8 +4,14 @@ import * as trpcExpress from "@trpc/server/adapters/express";
 import chalk from "chalk";
 import { config } from "dotenv";
 import express from "express";
+import type { Response, Request, NextFunction } from "express";
 import figures from "figures";
-import { serve, setup } from "swagger-ui-express";
+import { serve, generateHTML } from "swagger-ui-express";
+import type {
+  JsonObject,
+  SwaggerUiOptions,
+  SwaggerOptions,
+} from "swagger-ui-express";
 // eslint-disable-next-line import/no-extraneous-dependencies -- trpc-openapi has to be specified in the root package.json due to a npm bug with the "overrides" key
 import { createOpenApiExpressMiddleware } from "trpc-openapi";
 
@@ -21,6 +27,44 @@ app.use(
     createContext,
   }),
 );
+
+function setup(
+  swaggerDoc?: JsonObject,
+  opts?: SwaggerUiOptions,
+  options?: SwaggerOptions,
+  customCss?: string,
+  customfavIcon?: string,
+  swaggerUrl?: string,
+  customSiteTitle?: string,
+): (
+  req: Request & { swaggerDoc?: JsonObject },
+  res: Response,
+  next: NextFunction,
+) => void {
+  return (req, res) => {
+    const html = generateHTML(
+      req.swaggerDoc ? req.swaggerDoc : swaggerDoc,
+      opts,
+      options,
+      customCss,
+      customfavIcon,
+      swaggerUrl,
+      customSiteTitle,
+    );
+
+    res.send(
+      html
+        .replace(
+          /\.\/(?<file>swagger-ui.*?\.(?:js|css))/g,
+          (_, file) => `./docs/${file}`,
+        )
+        .replace(
+          /\.\/(?<icon>favicon-.*?\.png)/g,
+          (_, icon) => `./docs/${icon}`,
+        ),
+    );
+  };
+}
 
 app.use(
   "/docs",
