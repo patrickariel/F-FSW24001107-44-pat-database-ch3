@@ -36,6 +36,7 @@ This section assumes that you already have a PostgreSQL server running with an e
    ```bash
    cd packages/db
    npx prisma migrate dev
+   npx prisma db seed
    cd -
    ```
 
