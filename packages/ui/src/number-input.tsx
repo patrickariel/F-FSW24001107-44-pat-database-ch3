@@ -2,7 +2,7 @@
 
 import { Input } from "./input";
 import { Label } from "./label";
-import { cn } from "@bling/ui/lib/utils";
+import { cn } from "@bingle/ui/lib/utils";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import * as React from "react";
 import {

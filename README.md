@@ -66,6 +66,10 @@ This section assumes that you already have a PostgreSQL server running with an e
    - `4000`: The actual Express server that handles API requests coming from the Next.js app
    - `5555`: Prisma web frontend to the PostgreSQL database
 
+   You can log in to the default account using the following credentials:
+   - E-mail: `john.smith@bingle.com`
+   - Password: `password`
+
 ## 🏭 Build
 
 To build and run for production, simply do:

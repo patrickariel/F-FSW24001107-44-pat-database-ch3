@@ -13,7 +13,7 @@ import {
 import Spinner from "@bingle/ui/spinner";
 import { Textarea } from "@bingle/ui/textarea";
 import { toast } from "@bingle/ui/use-toast";
-import { Button } from "@bling/ui/button";
+import { Button } from "@bingle/ui/button";
 import {
   Form,
   FormControl,
@@ -22,8 +22,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@bling/ui/form";
-import { Input } from "@bling/ui/input";
+} from "@bingle/ui/form";
+import { Input } from "@bingle/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import _ from "lodash";
 import { Upload, CirclePlus, CircleMinus } from "lucide-react";
