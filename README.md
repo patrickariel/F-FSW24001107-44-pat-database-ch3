@@ -54,7 +54,16 @@ This section assumes that you already have a PostgreSQL server running with an e
    npm run dev
    ```
 
-   And that's it. You should be able to see the web app running on <http://localhost:3000>.
+   And that's it. Everything should be set up now.
+
+   By default, the dev environment will launch these apps in the following ports:
+
+   - `3000`: The main Next.js web app
+     - `/api/trpc/*`: tRPC routes
+     - `/api/*`: REST routes
+       - `/api/docs`: REST documentation
+   - `4000`: The actual Express server that handles API requests coming from the Next.js app
+   - `5555`: Prisma web frontend to the PostgreSQL database
 
 ## 🏭 Build
 
