@@ -8,6 +8,7 @@ import { Button } from "@bingle/ui/button";
 import { Input } from "@bingle/ui/input";
 import { cn } from "@bingle/ui/lib/utils";
 import { useToast } from "@bingle/ui/use-toast";
+import _ from "lodash";
 import { CircleX } from "lucide-react";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
@@ -16,7 +17,7 @@ import { useState } from "react";
 export function CartItem({
   item: {
     quantity,
-    product: { id, name, description, price, images },
+    product: { id, name, description, price, images, stock },
   },
   className,
   onPending,
@@ -147,7 +148,7 @@ export function CartItem({
                   } else {
                     const parsed = parseInt(e.target.value);
                     if (!Number.isNaN(parsed)) {
-                      quantity = Math.max(parsed, 1);
+                      quantity = _.clamp(parsed, 1, stock);
                     }
                   }
                   if (quantity) {
@@ -163,7 +164,7 @@ export function CartItem({
                 className="size-7 rounded-l-none md:size-8"
                 disabled={disabled}
                 onClick={() => {
-                  const quantity = Math.min(localQty + 1, 99);
+                  const quantity = Math.min(localQty + 1, stock);
                   setLocalQty(quantity);
                   updateCart.mutate({ items: [{ id, quantity }] });
                 }}
