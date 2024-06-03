@@ -51,7 +51,7 @@ export function Navigation({
   });
 
   return (
-    <div className="sticky top-0 z-50 border-b bg-zinc-950">
+    <div className="sticky top-0 z-50 h-16 border-b bg-zinc-950">
       <div className="flex flex-row items-center justify-between gap-1 pl-1 pr-3 lg:container sm:gap-2 lg:gap-4">
         <div className="mr-2 flex h-16 items-center md:mr-0 lg:gap-4 lg:pr-4">
           <NavSheet />

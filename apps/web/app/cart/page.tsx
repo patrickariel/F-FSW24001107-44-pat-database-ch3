@@ -8,9 +8,17 @@ import { cn } from "@bingle/ui/lib/utils";
 import { ScrollArea } from "@bingle/ui/scroll-area";
 import { Separator } from "@bingle/ui/separator";
 import Spinner from "@bingle/ui/spinner";
-import { ShoppingBasket, ShoppingCart } from "lucide-react";
+import { toast } from "@bingle/ui/use-toast";
+import { ShoppingBasket, ShoppingCart, PartyPopper } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { useState } from "react";
+
+enum CheckoutPhase {
+  None,
+  Processing,
+  Done,
+}
 
 function CartDetails({
   children,
@@ -29,11 +37,71 @@ function CartDetails({
   );
 }
 
-export default function Cart() {
-  const { status } = useSession();
-  const { data: cart, refetch } = trpc.cart.list.useQuery();
+function Success() {
+  const { push } = useRouter();
+  return (
+    <div className="container flex grow flex-col items-center justify-center gap-4 py-4 pb-16 lg:gap-12 lg:pb-32">
+      <PartyPopper className="size-44 stroke-zinc-800 lg:size-64" />
+      <div className="flex flex-col items-center gap-5 lg:gap-12">
+        <div className="flex flex-col items-center justify-center gap-4">
+          <h1 className="text-muted-foreground min-w-32 text-2xl">
+            Order completed!
+          </h1>
+          <h1 className="text-muted-foreground min-w-80 text-lg">
+            Thank you for shopping at Bingle.
+          </h1>
+        </div>
+        <div className="flex flex-col gap-4 sm:flex-row lg:gap-8">
+          <Button className="landscape:max-lg:h-8" onClick={() => push("/")}>
+            Continue shopping
+          </Button>
+          <Button className="landscape:max-lg:h-8" variant={"outline"}>
+            Order details
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-  if (!cart || status === "loading") {
+export default function Page() {
+  const { status } = useSession();
+  const { data: cart } = trpc.cart.list.useQuery();
+  const [disableAll, setDisableAll] = useState(false);
+  const [disableCheckout, setDisableCheckout] = useState(false);
+  const [checkoutPhase, setCheckoutPhase] = useState(CheckoutPhase.None);
+  const utils = trpc.useUtils();
+
+  const checkout = trpc.cart.checkout.useMutation({
+    onMutate: () => {
+      setDisableAll(true);
+      setCheckoutPhase(CheckoutPhase.Processing);
+    },
+    onSuccess: () => {
+      setCheckoutPhase(CheckoutPhase.Done);
+      utils.user.get.refetch();
+      setDisableAll(false);
+    },
+    onError: (error) => {
+      setDisableAll(false);
+      setCheckoutPhase(CheckoutPhase.None);
+      toast({
+        variant: "destructive",
+        title: error.data?.code ?? "Error",
+        description: error.message,
+      });
+    },
+  });
+
+  if (checkoutPhase === CheckoutPhase.Done) {
+    return <Success />;
+  }
+
+  if (
+    !cart ||
+    status === "loading" ||
+    checkoutPhase === CheckoutPhase.Processing
+  ) {
     return (
       <div className="flex flex-1 items-center justify-center">
         <Spinner />
@@ -52,7 +120,7 @@ export default function Cart() {
 
   if (cart.length === 0) {
     return (
-      <div className="flex flex-1 flex-col items-center justify-center text-center">
+      <div className="flex flex-1 flex-col items-center justify-center pb-12 text-center lg:pb-24">
         <ShoppingCart size={350} className="stroke-zinc-900 pr-11" />
         <h6 className="text-2xl font-bold text-zinc-800">
           Your cart is empty.
@@ -62,14 +130,16 @@ export default function Cart() {
   }
 
   return (
-    <div className="flex min-h-0 grow flex-col items-start justify-center gap-5 px-4 py-4 sm:container md:flex-row md:items-center lg:gap-11 lg:px-16 lg:py-8">
+    <div className="flex h-[calc(100vh-4rem)] flex-col items-start justify-center gap-5 px-4 py-4 sm:container md:flex-row md:items-center lg:gap-11 lg:px-16 lg:py-8">
       <ScrollArea className="flex grow basis-10/12 flex-row self-stretch rounded-md border p-4 lg:m-0 lg:basis-8/12">
         <div className="flex flex-col">
           {cart.map((item) => (
             <>
               <CartItem
                 key={item.productId}
-                onRemove={() => refetch()}
+                disabled={disableAll}
+                onPending={() => setDisableCheckout(true)}
+                onDone={() => setDisableCheckout(false)}
                 item={item}
                 className="py-3"
               />
@@ -106,7 +176,13 @@ export default function Cart() {
               {currency.format(itemTotal + tax + shipping + discount)}
             </p>
           </p>
-          <Button>Checkout</Button>
+          <Button
+            className="disabled:opacity-100"
+            disabled={disableAll || disableCheckout}
+            onClick={() => checkout.mutate()}
+          >
+            Checkout
+          </Button>
         </div>
       </div>
     </div>

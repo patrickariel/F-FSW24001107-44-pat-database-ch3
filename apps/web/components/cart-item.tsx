@@ -19,24 +19,30 @@ export function CartItem({
     product: { id, name, description, price, images },
   },
   className,
-  onRemove,
+  onPending,
+  onDone,
+  disabled = false,
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & {
-  onRemove: () => void;
   item: RouterOutput["cart"]["list"][number];
+  onPending?: () => void;
+  onDone?: () => void;
+  disabled?: boolean;
 }) {
   const { toast } = useToast();
-  const [disabledState, setDisabledState] = useState(false);
   const [validQty, setValidQty] = useState(quantity);
   const [localQty, setLocalQty] = useState(quantity);
   const utils = trpc.useUtils();
 
   const updateCart = trpc.cart.update.useMutation({
+    onMutate: () => onPending && onPending(),
     onSuccess: (data) => {
+      onDone && onDone();
       setValidQty(data[0]!.quantity);
       utils.cart.list.refetch();
     },
     onError: () => {
+      onDone && onDone();
       setLocalQty(validQty);
       toast({
         variant: "destructive",
@@ -47,10 +53,10 @@ export function CartItem({
   });
 
   const removeFromCart = trpc.cart.remove.useMutation({
-    onMutate: () => setDisabledState(true),
+    onMutate: () => onPending && onPending(),
     onSuccess: () => {
-      onRemove();
-      setDisabledState(false);
+      onDone && onDone();
+      utils.cart.list.refetch();
       utils.product.find.refetch();
       toast({
         title: "Removed from cart",
@@ -58,7 +64,7 @@ export function CartItem({
       });
     },
     onError: () => {
-      setDisabledState(false);
+      onDone && onDone();
       toast({
         variant: "destructive",
         title: "There was a problem",
@@ -96,7 +102,7 @@ export function CartItem({
                 {name}
               </div>
               <CircleX
-                onClick={() => !disabledState && removeFromCart.mutate({ id })}
+                onClick={() => !disabled && removeFromCart.mutate({ id })}
                 className="size-4 flex-none cursor-pointer stroke-zinc-500 hover:stroke-red-900 sm:size-5"
               />
             </div>
@@ -119,6 +125,7 @@ export function CartItem({
               <Button
                 id={`${id}-decrement`}
                 variant="outline"
+                disabled={disabled}
                 size="icon"
                 onClick={() => {
                   const quantity = Math.max(localQty - 1, 1);
@@ -132,6 +139,7 @@ export function CartItem({
               <Input
                 value={localQty === 0 ? "" : localQty}
                 className="h-7 w-9 rounded-none border-x-0 text-center text-xs md:h-8 md:w-11 md:text-base"
+                disabled={disabled}
                 onChange={(e) => {
                   let quantity;
                   if (e.target.value === "") {
@@ -153,6 +161,7 @@ export function CartItem({
                 variant="outline"
                 size="icon"
                 className="size-7 rounded-l-none md:size-8"
+                disabled={disabled}
                 onClick={() => {
                   const quantity = Math.min(localQty + 1, 99);
                   setLocalQty(quantity);

@@ -1,6 +1,7 @@
 import { userProcedure, router } from "@bingle/api/trpc";
 import { CartItemSchema, ProductSchema } from "@bingle/db";
 import { TRPCError } from "@trpc/server";
+import _ from "lodash";
 import { z } from "zod";
 
 export default router({
@@ -170,5 +171,57 @@ export default router({
       });
 
       return Promise.all(products);
+    }),
+  checkout: userProcedure
+    .meta({
+      openapi: { method: "POST", path: "/cart/checkout", protect: true },
+    })
+    .input(z.void())
+    .output(z.void())
+    .mutation(async ({ ctx: { user, db } }) => {
+      const total = Math.max(
+        _.sum([
+          ...user.cart.map(
+            ({ product: { price }, quantity }) => price * quantity,
+          ),
+          5, // hardcoded tax
+          25, // hardcoded shipping fee
+          -8, // hardcoded discount
+        ]),
+        0,
+      );
+
+      if (total > user.balance) {
+        throw new TRPCError({
+          code: "PRECONDITION_FAILED",
+          message: "Not enough balance.",
+        });
+      }
+
+      for (const {
+        product: { name, stock },
+        quantity,
+      } of user.cart) {
+        if (quantity > stock) {
+          throw new TRPCError({
+            code: "PRECONDITION_FAILED",
+            message: `Not enough "${name}" in stock.`,
+          });
+        }
+      }
+
+      await Promise.all([
+        ...user.cart.map(({ product: { stock, id }, quantity }) =>
+          db.product.update({
+            where: { id },
+            data: { stock: stock - quantity },
+          }),
+        ),
+        db.user.update({
+          where: { id: user.id },
+          data: { balance: user.balance - total },
+        }),
+        db.cartItem.deleteMany({ where: { userId: user.id } }),
+      ]);
     }),
 });

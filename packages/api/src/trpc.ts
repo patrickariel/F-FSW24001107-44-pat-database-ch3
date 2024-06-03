@@ -66,7 +66,7 @@ export const userProcedure = t.procedure.use(
 
       const user = await db.user.findUnique({
         where: { email: session.email },
-        include: { cart: true },
+        include: { cart: { include: { product: true } } },
       });
 
       if (!user) {
