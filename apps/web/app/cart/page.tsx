@@ -88,7 +88,7 @@ export default function Page() {
       setCheckoutPhase(CheckoutPhase.None);
       toast({
         variant: "destructive",
-        title: error.data?.code ?? "Error",
+        title: "An error has occured",
         description: error.message,
       });
     },

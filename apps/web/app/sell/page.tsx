@@ -291,7 +291,7 @@ export default function Page() {
           />
           <div className="space-y-3">
             <div className="flex flex-row items-center gap-3">
-              <p className="text-sm font-medium">Secondary images</p>
+              <p className="text-sm font-medium">Additional images</p>
               <div className="flex flex-row items-center gap-1">
                 <CircleMinus
                   size={20}
