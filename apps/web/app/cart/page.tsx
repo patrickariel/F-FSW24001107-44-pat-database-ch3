@@ -80,6 +80,7 @@ export default function Page() {
     onSuccess: () => {
       setCheckoutPhase(CheckoutPhase.Done);
       utils.user.get.refetch();
+      utils.cart.list.refetch();
       setDisableAll(false);
     },
     onError: (error) => {
