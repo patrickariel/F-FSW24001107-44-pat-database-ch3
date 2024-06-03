@@ -69,11 +69,11 @@ export function Navigation({
             )}
             {...props}
           >
-            <NavLink href="/books">Books</NavLink>
-            <NavLink href="/clothing">Clothing</NavLink>
-            <NavLink href="/kids">Kids</NavLink>
-            <NavLink href="/electronics">Electronics</NavLink>
-            <NavLink href="/health">Health</NavLink>
+            <NavLink href="/department/books">Books</NavLink>
+            <NavLink href="/department/clothing">Clothing</NavLink>
+            <NavLink href="/department/kids">Kids</NavLink>
+            <NavLink href="/department/electronics">Electronics</NavLink>
+            <NavLink href="/department/health">Health</NavLink>
           </nav>
         </div>
         <Suspense>

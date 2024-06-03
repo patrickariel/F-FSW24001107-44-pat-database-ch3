@@ -19,6 +19,9 @@ export default function Page() {
   const { data: electronics } = trpc.product.find.useQuery({
     department: "Electronics",
   });
+  const { data: books } = trpc.product.find.useQuery({
+    department: "Books",
+  });
 
   return (
     <main className="flex flex-col items-center justify-between p-8">
@@ -64,12 +67,25 @@ export default function Page() {
         <ContentSection
           title="Electronics"
           description="Find the latest gadgets from the best makers."
-          href="/"
+          href="/department/electronics"
           linkText="See more"
           className="pt-14 md:pt-20 lg:pt-24"
         >
           {electronics
             ? electronics.products
+                .slice(0, 8)
+                .map((product, i) => <ProductCard key={i} product={product} />)
+            : _.range(0, 8).map((i) => <ProductSkeleton key={i} />)}
+        </ContentSection>
+        <ContentSection
+          title="Books"
+          description="Cultivate your curiosity with the most renowned classics."
+          href="/department/books"
+          linkText="See more"
+          className="pt-14 md:pt-20 lg:pt-24"
+        >
+          {books
+            ? books.products
                 .slice(0, 8)
                 .map((product, i) => <ProductCard key={i} product={product} />)
             : _.range(0, 8).map((i) => <ProductSkeleton key={i} />)}

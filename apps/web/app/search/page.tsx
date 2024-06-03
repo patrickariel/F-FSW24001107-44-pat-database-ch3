@@ -401,21 +401,15 @@ function Search() {
       </div>
       <SearchResults {...query} />
       {data && data.pages.length > 0 && data.pages[0]!.products.length > 0 && (
-        <>
-          {isFetchingNextPage && (
-            <div className="flex h-14 items-center">
-              <Spinner />
-            </div>
-          )}
-          {!isFetchingNextPage && hasNextPage && (
-            <div className="h-14" ref={ref} />
-          )}
+        <div
+          className="flex h-14 flex-col items-center justify-center"
+          {...(!isFetchingNextPage && hasNextPage && { ref })}
+        >
+          {isFetchingNextPage && <Spinner />}
           {!hasNextPage && (
-            <div className="flex h-14 items-center">
-              <h5 className="text-muted-foreground">No more results.</h5>
-            </div>
+            <h5 className="text-muted-foreground">No more results.</h5>
           )}
-        </>
+        </div>
       )}
     </div>
   );

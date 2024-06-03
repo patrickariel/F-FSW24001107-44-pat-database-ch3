@@ -1,6 +1,11 @@
 import { Button } from "@bingle/ui/button";
 import { cn } from "@bingle/ui/lib/utils";
-import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "@bingle/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTrigger,
+} from "@bingle/ui/sheet";
 import { Menu, BookText, Shirt, Baby, Cable, HeartPulse } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -32,23 +37,23 @@ export function NavSheet() {
         <SheetHeader className="flex flex-col gap-4 text-start">
           <div className="flex flex-row gap-3">
             <BookText className="stroke-muted-foreground" />
-            <NavLink href="/books">Books</NavLink>
+            <NavLink href="/department/books">Books</NavLink>
           </div>
           <div className="flex flex-row gap-3">
             <Shirt className="stroke-muted-foreground" />
-            <NavLink href="/clothing">Clothing</NavLink>
+            <NavLink href="/department/clothing">Clothing</NavLink>
           </div>
           <div className="flex flex-row gap-3">
             <Baby className="stroke-muted-foreground" />
-            <NavLink href="/kids">Kids</NavLink>
+            <NavLink href="/department/kids">Kids</NavLink>
           </div>
           <div className="flex flex-row gap-3">
             <Cable className="stroke-muted-foreground" />
-            <NavLink href="/electronics">Electronics</NavLink>
+            <NavLink href="/department/electronics">Electronics</NavLink>
           </div>
           <div className="flex flex-row gap-3">
             <HeartPulse className="stroke-muted-foreground" />
-            <NavLink href="/health">Health</NavLink>
+            <NavLink href="/department/health">Health</NavLink>
           </div>
         </SheetHeader>
       </SheetContent>
