@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "buildCommand": "cd packages/db && npx prisma migrate reset --force && cd - && npm run build",
+  "outputDirectory": "./apps/web/.next",
+  "installCommand": "npm install",
+  "builds": [
+    {
+      "src": "apps/server/dist/index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "apps/web/package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/trpc/.*",
+      "dest": "index.js"
+    }
+  ]
+}
