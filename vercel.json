@@ -3,10 +3,10 @@
   "buildCommand": "cd packages/db && npx prisma migrate reset --force && cd - && npm run build",
   "outputDirectory": "./apps/web/.next",
   "installCommand": "npm install",
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/trpc/.*",
-      "dest": "apps/server/dist/index.js"
+      "source": "/api/trpc/(.*)",
+      "destination": "/apps/server/dist"
     }
   ]
 }

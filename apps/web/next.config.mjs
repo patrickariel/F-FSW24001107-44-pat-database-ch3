@@ -13,16 +13,16 @@ const nextConfig = {
   },
   async rewrites() {
     return {
-      fallback: [
-        {
-          source: "/api/docs",
-          destination: `http://localhost:${expressPort}/docs/`,
-        },
-        {
-          source: "/api/:path*",
-          destination: `http://localhost:${expressPort}/:path*`,
-        },
-      ],
+      // fallback: [
+      //   {
+      //     source: "/api/docs",
+      //     destination: `http://localhost:${expressPort}/docs/`,
+      //   },
+      //   {
+      //     source: "/api/:path*",
+      //     destination: `http://localhost:${expressPort}/:path*`,
+      //   },
+      // ],
     };
   },
   images: {
