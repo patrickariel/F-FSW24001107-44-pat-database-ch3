@@ -93,7 +93,6 @@ export function CartButton({
           `flex w-full flex-row gap-2 ${cartState ? "hover:bg-red-500" : ""}`,
           className,
         )}
-        variant={disabledState ? "disabled" : "outline"}
         onClick={onClick}
         {...props}
       >
