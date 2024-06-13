@@ -1,6 +1,5 @@
 import { faker } from "@faker-js/faker";
 import { PrismaClient } from "@prisma/client";
-import { map } from "async";
 import * as bcrypt from "bcrypt";
 import _ from "lodash";
 
@@ -28,11 +27,15 @@ async function main(): Promise<void> {
     },
   });
 
+  const foo = _.range(0, 100).map((i) => {});
+
   const extraUsers = await prisma.user.createManyAndReturn({
-    data: await map(_.range(0, 100), async () => ({
-      email: faker.internet.email(),
+    data: _.range(0, 100).map((i) => ({
+      email: faker.internet.email({
+        lastName: `${faker.person.lastName}${i}`,
+      }),
       name: faker.person.fullName(),
-      password: await bcrypt.hash("password", 10),
+      password: bcrypt.hashSync("password", 10),
       image: faker.image.avatarGitHub(),
       balance: _.random(2000, 9000),
     })),
